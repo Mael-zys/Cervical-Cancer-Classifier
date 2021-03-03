@@ -1,0 +1,1 @@
+python train.py --arch resnet101 --n_epoch 30 --schedule 10 20

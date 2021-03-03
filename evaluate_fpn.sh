@@ -1,0 +1,1 @@
+python evaluate_fpn.py --arch resnet152 --resume checkpoints_fpn/ic15_resnet152_bs_64_ep_30/checkpoint.pth.tar

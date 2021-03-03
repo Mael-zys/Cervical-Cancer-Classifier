@@ -16,6 +16,8 @@ model_urls = {
     'resnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
     'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
 }
+
+
 def conv3x3(in_planes, out_planes, stride=1):
     """3x3 convolution with padding"""
     return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
@@ -107,10 +109,56 @@ class ResNet(nn.Module):
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
         self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
         self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
+        # self.avgpool = nn.AvgPool2d(7, stride=1)
+        # self.fc = nn.Linear(512 * block.expansion, num_classes)
         self.avgpool1 = nn.AvgPool2d(8, stride=1)
-        self.fc1 = nn.Linear(512 * block.expansion, num_classes)
-        # self.avgpool1 = nn.AvgPool2d(1, stride=1)
-        # self.fc1 = nn.Linear(512 * block.expansion*8*8, num_classes)
+        self.fc1 = nn.Linear(6498, num_classes)
+
+
+        # Top layer
+        self.toplayer = nn.Conv2d(2048, 256, kernel_size=1, stride=1, padding=0)  # Reduce channels
+        self.toplayer_bn = nn.BatchNorm2d(256)
+        self.toplayer_relu = nn.ReLU(inplace=True)
+
+        # Smooth layers
+        self.smooth1 = nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1)
+        self.smooth1_bn = nn.BatchNorm2d(256)
+        self.smooth1_relu = nn.ReLU(inplace=True)
+
+        self.smooth2 = nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1)
+        self.smooth2_bn = nn.BatchNorm2d(256)
+        self.smooth2_relu = nn.ReLU(inplace=True)
+
+        self.smooth3 = nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1)
+        self.smooth3_bn = nn.BatchNorm2d(256)
+        self.smooth3_relu = nn.ReLU(inplace=True)
+
+        # Lateral layers
+        self.latlayer1 = nn.Conv2d(1024, 256, kernel_size=1, stride=1, padding=0)
+        self.latlayer1_bn = nn.BatchNorm2d(256)
+        self.latlayer1_relu = nn.ReLU(inplace=True)
+
+        # self.latlayer2 = nn.Conv2d(512,  256, kernel_size=1, stride=1, padding=0)
+        # self.latlayer2_bn = nn.BatchNorm2d(256)
+        # self.latlayer2_relu = nn.ReLU(inplace=True)
+
+        # self.latlayer3 = nn.Conv2d(256,  256, kernel_size=1, stride=1, padding=0)
+        # self.latlayer3_bn = nn.BatchNorm2d(256)
+        # self.latlayer3_relu = nn.ReLU(inplace=True)
+
+        self.conv2 = nn.Conv2d(512, 256, kernel_size=3, stride=1, padding=1)
+        self.bn2 = nn.BatchNorm2d(256)
+        self.relu2 = nn.ReLU(inplace=True)
+        self.conv3 = nn.Conv2d(256, 256, kernel_size=1, stride=1, padding=0)
+
+        # self.scale = scale
+        self.bn3 = nn.BatchNorm2d(256)
+        self.relu3 = nn.ReLU(inplace=True)
+        # self.avgpool1 = nn.AvgPool2d(8, stride=1)
+        self.avgpool1 = nn.AvgPool2d(16, stride=1)
+        self.fc1 = nn.Linear(256, num_classes)
+        # self.avgpool2 = nn.AvgPool2d(16, stride=1)
+        # self.fc2 = nn.Linear(256, num_classes)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -153,24 +201,65 @@ class ResNet(nn.Module):
         h = self.maxpool(h)
 
         h = self.layer1(h)
-
+        c2 = h
         h = self.layer2(h)
-
+        c3 = h
         h = self.layer3(h)
-
+        c4 = h
         h = self.layer4(h)
-        # print(h.shape)
-        h = self.avgpool1(h)
-        # print(h.shape)
-        h = torch.flatten(h, 1)
-        # print(h.shape)
-        h = self.fc1(h)
-        # print(h.shape)
+        c5 = h
 
-        return h
+        # Top-down
+        p5 = self.toplayer(c5)
+        p5 = self.toplayer_relu(self.toplayer_bn(p5))
+
+        c4 = self.latlayer1(c4)
+        c4 = self.latlayer1_relu(self.latlayer1_bn(c4))
+        p4 = self._upsample_add(p5, c4)
+        p4 = self.smooth1(p4)
+        p4 = self.smooth1_relu(self.smooth1_bn(p4))
+
+        # print(p5.shape)
+        # print(p4.shape)
+        
 
 
-def resnet18(pretrained=False, **kwargs):
+        # c3 = self.latlayer2(c3)
+        # c3 = self.latlayer2_relu(self.latlayer2_bn(c3))
+        # p3 = self._upsample_add(p4, c3)
+        # p3 = self.smooth2(p3)
+        # p3 = self.smooth2_relu(self.smooth2_bn(p3))        
+
+        # c2 = self.latlayer3(c2)
+        # c2 = self.latlayer3_relu(self.latlayer3_bn(c2))
+        # p2 = self._upsample_add(p3, c2)
+        # p2 = self.smooth3(p2)
+        # p2 = self.smooth3_relu(self.smooth3_bn(p2))
+
+        # p3 = self._upsample(p3, p2)
+        # p4 = self._upsample(p4, p2)
+        p5 = self._upsample(p5, p4)
+
+        out = torch.cat((p4, p5), 1)
+
+        out = self.conv2(out)
+
+        out = self.relu2(self.bn2(out))
+
+        out = self.conv3(out)
+
+        out = self.relu3(self.bn3(out))
+        # print(out.shape)
+        out = self.avgpool1(out)
+        out = torch.flatten(out, 1)
+
+        out = self.fc1(out)
+
+
+        return out
+
+
+def fpn1_resnet18(pretrained=False, **kwargs):
     """Constructs a ResNet-18 model.
 
     Args:
@@ -182,7 +271,7 @@ def resnet18(pretrained=False, **kwargs):
     return model
 
 
-def resnet34(pretrained=False, **kwargs):
+def fpn1_resnet34(pretrained=False, **kwargs):
     """Constructs a ResNet-34 model.
 
     Args:
@@ -194,7 +283,7 @@ def resnet34(pretrained=False, **kwargs):
     return model
 
 
-def resnet50(pretrained=False, **kwargs):
+def fpn1_resnet50(pretrained=False, **kwargs):
     """Constructs a ResNet-50 model.
 
     Args:
@@ -211,7 +300,7 @@ def resnet50(pretrained=False, **kwargs):
     return model
 
 
-def resnet101(pretrained=False, **kwargs):
+def fpn1_resnet101(pretrained=False, **kwargs):
     """Constructs a ResNet-101 model.
 
     Args:
@@ -227,7 +316,7 @@ def resnet101(pretrained=False, **kwargs):
         model.load_state_dict(state)
     return model
 
-def resnet152(pretrained=False, **kwargs):
+def fpn1_resnet152(pretrained=False, **kwargs):
     """Constructs a ResNet-152 model.
 
     Args:
@@ -245,7 +334,7 @@ def resnet152(pretrained=False, **kwargs):
 
 
 if __name__ == "__main__":
-    model = resnet101(False, num_classes = 2)
+    model = fpn1_resnet50(True, num_classes = 9)
     input = torch.rand(5,3,256,256)
     output = model(input)
     print(output.size())

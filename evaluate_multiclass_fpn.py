@@ -28,11 +28,11 @@ def test(args):
 
     # Setup Model
     if args.arch == "resnet50":
-        model = models.resnet50(pretrained=True, num_classes=2)
+        model = models.fpn_resnet50(pretrained=True, num_classes=9)
     elif args.arch == "resnet101":
-        model = models.resnet101(pretrained=True, num_classes=2)
+        model = models.fpn_resnet101(pretrained=True, num_classes=9)
     elif args.arch == "resnet152":
-        model = models.resnet152(pretrained=True, num_classes=2)
+        model = models.fpn_resnet152(pretrained=True, num_classes=9)
     
     for param in model.parameters():
         param.requires_grad = False
@@ -65,7 +65,7 @@ def test(args):
 
     save_path = args.save
 
-    util.io.write_lines(save_path, "ID"+","+"ABNORMAL"+'\n', 'w')
+    util.io.write_lines(save_path, "ID"+","+"GROUP"+'\n', 'w')
     for idx, img in enumerate(test_loader):
         print('progress: %d / %d'%(idx, len(test_loader)))
         sys.stdout.flush()
@@ -75,13 +75,11 @@ def test(args):
         torch.cuda.synchronize()
         start = time.time()
 
-        outputs = model(img)
+        outputs1, outputs2 = model(img)
 
-        outputs = outputs.squeeze(0).cpu().numpy().astype(np.float32)
-        # if outputs[0] > 0.5 :
-        #     result = 0
-        # else : result = 1
-        result = np.argmax(outputs)
+        outputs1 = outputs1.squeeze(0).cpu().numpy().astype(np.float32)
+        outputs2 = outputs2.squeeze(0).cpu().numpy().astype(np.float32)
+        result = np.argmax(outputs1 + 0.5*outputs2)
 
         torch.cuda.synchronize()
         end = time.time()
@@ -96,10 +94,10 @@ def test(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Hyperparams')
     parser.add_argument('--arch', nargs='?', type=str, default='resnet50')
-    parser.add_argument('--resume', nargs='?', type=str, default='checkpoints/ic15_resnet50_bs_96_ep_15_best/checkpoint.pth.tar',    
+    parser.add_argument('--resume', nargs='?', type=str, default='checkpoints_multi/ic15_resnet50_bs_96_ep_30/checkpoint.pth.tar',    
                         help='Path to previous saved model to restart from')
     parser.add_argument('--image_size', nargs='?', type=int, default=256)
-    parser.add_argument('--save', nargs='?', type=str, default='./submission.csv',    
+    parser.add_argument('--save', nargs='?', type=str, default='./submission_multi_fpn.csv',    
                         help='Path to save results')
     args = parser.parse_args()
     test(args)

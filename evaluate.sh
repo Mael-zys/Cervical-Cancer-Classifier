@@ -1,0 +1,1 @@
+python evaluate.py --arch resnet101 --resume checkpoints/ic15_resnet101_bs_96_ep_30/checkpoint.pth.tar

@@ -10,7 +10,7 @@ from torch.autograd import Variable
 from torch.utils import data
 import os
 
-from train_data_loader_multiclass import trainLoader
+from train_data_loader_multiclass_seg import trainLoader
 from metrics import runningScore
 import models
 from util import Logger, AverageMeter
@@ -115,7 +115,9 @@ def train(train_loader, val_loader, model, criterion, optimizer, epoch):
         
         outputs = model(imgs)
         # outputs = torch.sigmoid(outputs)
+
         loss = criterion(outputs, gt)
+
         losses.update(loss.item(), imgs.size(0))
 
         optimizer.zero_grad()
@@ -150,6 +152,7 @@ def train(train_loader, val_loader, model, criterion, optimizer, epoch):
             # outputs = torch.sigmoid(outputs)
 
             loss = criterion(outputs, gt)
+
             val_losses.update(loss.item(), imgs.size(0))
 
             val_batch_time.update(time.time() - end)
@@ -181,7 +184,7 @@ def save_checkpoint(state, checkpoint='checkpoint', filename='checkpoint.pth.tar
 
 def main(args):
     if args.checkpoint == '':
-        args.checkpoint = "checkpoints_multi/ic15_%s_bs_%d_ep_%d"%(args.arch, args.batch_size, args.n_epoch)
+        args.checkpoint = "checkpoints_multi_fpn_seg/ic15_%s_bs_%d_ep_%d"%(args.arch, args.batch_size, args.n_epoch)
     if args.pretrain:
         if 'synth' in args.pretrain:
             args.checkpoint += "_pretrain_synth"
@@ -202,11 +205,11 @@ def main(args):
     
 
     if args.arch == "resnet50":
-        model = models.resnet50(pretrained=True, num_classes=9)
+        model = models.fpn1_resnet50(pretrained=True, num_classes=9)
     elif args.arch == "resnet101":
-        model = models.resnet101(pretrained=True, num_classes=9)
+        model = models.fpn1_resnet101(pretrained=True, num_classes=9)
     elif args.arch == "resnet152":
-        model = models.resnet152(pretrained=True, num_classes=9)
+        model = models.fpn1_resnet152(pretrained=True, num_classes=9)
     
     model = torch.nn.DataParallel(model).cuda()
     
@@ -268,7 +271,7 @@ def main(args):
         train_loss, val_loss = train(train_loader, val_loader, model, LossCL, optimizer, epoch)
         train_loss_list.append(train_loss)
         val_loss_list.append(val_loss)
-        train_loss_plot(train_loss_list,val_loss_list,'train_val_loss_res50_multi.png')
+        train_loss_plot(train_loss_list,val_loss_list,'train_val_loss_multi_fpn_seg_'+args.arch+'.png')
         
         save_checkpoint({
                 'epoch': epoch + 1,

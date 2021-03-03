@@ -10,7 +10,7 @@ from torch.autograd import Variable
 from torch.utils import data
 import os
 
-from train_data_loader_multiclass import trainLoader
+from train_data_loader import trainLoader
 from metrics import runningScore
 import models
 from util import Logger, AverageMeter
@@ -77,22 +77,94 @@ def ohem_batch(scores, gt_texts, training_masks):
 
 LossCL = nn.CrossEntropyLoss().cuda()
 
+# class FocalLoss(nn.Module):
+#     def __init__(self, gamma=2,alpha=0.25):
+#         super(FocalLoss, self).__init__()
+#         self.gamma = gamma
+#         self.alpha=alpha
+#     def forward(self, input, target):
+#         # input:size is M*2. M　is the batch　number
+#         # target:size is M.
+#         p=torch.softmax(input,dim=1)
+#         temp = np.zeros(p.shape)
+#         temp = torch.tensor(temp).cuda()
+#         temp[:,target[:]] = 1
+#         # p = torch.clamp(input, 0.001, 0.999)
+#         # p = input[:,1]
+#         # print(input.shape)
+#         # print(target.shape)
+#         # loss = -self.alpha*(1-p)**self.gamma*(target*torch.log(p))-\
+#         #     (1-self.alpha)*p**self.gamma*((1-target)*torch.log(1-p))
+#         print(temp)
+#         loss = -self.alpha*(1-p)**self.gamma*(temp*torch.log(p))
+#         print(loss.size())
+#         return loss.mean()
+
 class FocalLoss(nn.Module):
-    def __init__(self, gamma=2,alpha=0.25):
+    """
+        This criterion is a implemenation of Focal Loss, which is proposed in 
+        Focal Loss for Dense Object Detection.
+
+            Loss(x, class) = - \alpha (1-softmax(x)[class])^gamma \log(softmax(x)[class])
+
+        The losses are averaged across observations for each minibatch.
+
+        Args:
+            alpha(1D Tensor, Variable) : the scalar factor for this criterion
+            gamma(float, double) : gamma > 0; reduces the relative loss for well-classiﬁed examples (p > .5), 
+                                   putting more focus on hard, misclassiﬁed examples
+            size_average(bool): By default, the losses are averaged over observations for each minibatch.
+                                However, if the field size_average is set to False, the losses are
+                                instead summed for each minibatch.
+
+
+    """
+    def __init__(self, class_num=2, alpha=None, gamma=2, size_average=True):
         super(FocalLoss, self).__init__()
+        if alpha is None:
+            self.alpha = Variable(torch.ones(class_num, 1))
+        else:
+            if isinstance(alpha, Variable):
+                self.alpha = alpha
+            else:
+                self.alpha = Variable(alpha)
         self.gamma = gamma
-        self.alpha=alpha
-    def forward(self, input, target):
-        # input:size is M*2. M　is the batch　number
-        # target:size is M.
-        # pt=torch.softmax(input,dim=1)
-        # p=pt[:,1]
-        p = torch.clamp(input, 0.001, 0.999)
-        # p = input[:,1]
-        loss = -self.alpha*(1-p)**self.gamma*(target*torch.log(p))-\
-            (1-self.alpha)*p**self.gamma*((1-target)*torch.log(1-p))
-        # print(loss)
-        return loss.mean()
+        self.class_num = class_num
+        self.size_average = size_average
+
+    def forward(self, inputs, targets):
+        N = inputs.size(0)
+        C = inputs.size(1)
+        P = F.softmax(inputs)
+
+        class_mask = inputs.data.new(N, C).fill_(0)
+        class_mask = Variable(class_mask)
+        ids = targets.view(-1, 1)
+        class_mask.scatter_(1, ids.data, 1.)
+        #print(class_mask)
+
+
+        if inputs.is_cuda and not self.alpha.is_cuda:
+            self.alpha = self.alpha.cuda()
+        alpha = self.alpha[ids.data.view(-1)]
+
+        probs = (P*class_mask).sum(1).view(-1,1)
+
+        log_p = probs.log()
+        #print('probs size= {}'.format(probs.size()))
+        #print(probs)
+
+        batch_loss = -alpha*(torch.pow((1-probs), self.gamma))*log_p 
+        #print('-----bacth_loss------')
+        #print(batch_loss)
+
+
+        if self.size_average:
+            loss = batch_loss.mean()
+        else:
+            loss = batch_loss.sum()
+        return loss
+LossFL = FocalLoss().cuda()
 
 def train(train_loader, val_loader, model, criterion, optimizer, epoch):
     model.train()
@@ -113,9 +185,12 @@ def train(train_loader, val_loader, model, criterion, optimizer, epoch):
         gt = Variable(gt.cuda())
 
         
-        outputs = model(imgs)
+        outputs1, outputs2 = model(imgs)
         # outputs = torch.sigmoid(outputs)
-        loss = criterion(outputs, gt)
+
+        loss1 = criterion(outputs1, gt)
+        loss2 = criterion(outputs2, gt)
+        loss = loss1 + loss2
         losses.update(loss.item(), imgs.size(0))
 
         optimizer.zero_grad()
@@ -146,10 +221,12 @@ def train(train_loader, val_loader, model, criterion, optimizer, epoch):
             gt = Variable(gt.cuda())
 
             
-            outputs = model(imgs)
+            outputs1, outputs2 = model(imgs)
             # outputs = torch.sigmoid(outputs)
 
-            loss = criterion(outputs, gt)
+            loss1 = criterion(outputs1, gt)
+            loss2 = criterion(outputs2, gt)
+            loss = loss1 + loss2
             val_losses.update(loss.item(), imgs.size(0))
 
             val_batch_time.update(time.time() - end)
@@ -181,7 +258,7 @@ def save_checkpoint(state, checkpoint='checkpoint', filename='checkpoint.pth.tar
 
 def main(args):
     if args.checkpoint == '':
-        args.checkpoint = "checkpoints_multi/ic15_%s_bs_%d_ep_%d"%(args.arch, args.batch_size, args.n_epoch)
+        args.checkpoint = "checkpoints_fpn_fl/ic15_%s_bs_%d_ep_%d"%(args.arch, args.batch_size, args.n_epoch)
     if args.pretrain:
         if 'synth' in args.pretrain:
             args.checkpoint += "_pretrain_synth"
@@ -202,11 +279,11 @@ def main(args):
     
 
     if args.arch == "resnet50":
-        model = models.resnet50(pretrained=True, num_classes=9)
+        model = models.fpn_resnet50(pretrained=True, num_classes=2)
     elif args.arch == "resnet101":
-        model = models.resnet101(pretrained=True, num_classes=9)
+        model = models.fpn_resnet101(pretrained=True, num_classes=2)
     elif args.arch == "resnet152":
-        model = models.resnet152(pretrained=True, num_classes=9)
+        model = models.fpn_resnet152(pretrained=True, num_classes=2)
     
     model = torch.nn.DataParallel(model).cuda()
     
@@ -265,10 +342,10 @@ def main(args):
             drop_last=False,
             pin_memory=True)
             
-        train_loss, val_loss = train(train_loader, val_loader, model, LossCL, optimizer, epoch)
+        train_loss, val_loss = train(train_loader, val_loader, model, LossFL, optimizer, epoch)
         train_loss_list.append(train_loss)
         val_loss_list.append(val_loss)
-        train_loss_plot(train_loss_list,val_loss_list,'train_val_loss_res50_multi.png')
+        train_loss_plot(train_loss_list,val_loss_list,'train_val_loss_fpn_fl_'+args.arch+'.png')
         
         save_checkpoint({
                 'epoch': epoch + 1,
@@ -285,9 +362,9 @@ if __name__ == '__main__':
     parser.add_argument('--arch', nargs='?', type=str, default='resnet50')
     parser.add_argument('--img_size', nargs='?', type=int, default=256, 
                         help='Height of the input image')
-    parser.add_argument('--n_epoch', nargs='?', type=int, default=30, 
+    parser.add_argument('--n_epoch', nargs='?', type=int, default=15, 
                         help='# of the epochs')
-    parser.add_argument('--schedule', type=int, nargs='+', default=[10, 20],
+    parser.add_argument('--schedule', type=int, nargs='+', default=[5, 10],
                         help='Decrease learning rate at these epochs.')
     parser.add_argument('--batch_size', nargs='?', type=int, default=96, 
                         help='Batch Size')

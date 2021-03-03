@@ -1,0 +1,1 @@
+python evaluate_multiclass_fpn.py --arch resnet101 --resume checkpoints_multi_fpn/ic15_resnet101_bs_64_ep_30/checkpoint.pth.tar

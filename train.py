@@ -19,7 +19,7 @@ import util
 from torch.utils.data import random_split
 import matplotlib.pyplot as plt
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '1,2,3'
 
 def train_loss_plot(train_loss_list=[], val_loss_list=[], name=''):
     x1 = range(0, len(train_loss_list))
@@ -268,7 +268,7 @@ def main(args):
         train_loss, val_loss = train(train_loader, val_loader, model, LossCL, optimizer, epoch)
         train_loss_list.append(train_loss)
         val_loss_list.append(val_loss)
-        train_loss_plot(train_loss_list,val_loss_list,'train_val_loss_res50.png')
+        train_loss_plot(train_loss_list,val_loss_list,'train_val_loss_'+args.arch+'.png')
         
         save_checkpoint({
                 'epoch': epoch + 1,

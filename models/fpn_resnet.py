@@ -13,7 +13,7 @@ model_urls = {
     'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
     'resnet34': 'https://download.pytorch.org/models/resnet34-333f7ec4.pth',
     'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
-    'resnet101': 'https://download.pytorch.org/models/resnet101-5d3mb4d8f.pth',
+    'resnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
     'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
 }
 
@@ -111,7 +111,8 @@ class ResNet(nn.Module):
         self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
         # self.avgpool = nn.AvgPool2d(7, stride=1)
         # self.fc = nn.Linear(512 * block.expansion, num_classes)
-        self.fc1 = nn.Linear(64*64*2, num_classes)
+        # self.avgpool1 = nn.AvgPool2d(8, stride=1)
+        # self.fc1 = nn.Linear(6498, num_classes)
 
 
         # Top layer
@@ -137,21 +138,26 @@ class ResNet(nn.Module):
         self.latlayer1_bn = nn.BatchNorm2d(256)
         self.latlayer1_relu = nn.ReLU(inplace=True)
 
-        self.latlayer2 = nn.Conv2d(512,  256, kernel_size=1, stride=1, padding=0)
-        self.latlayer2_bn = nn.BatchNorm2d(256)
-        self.latlayer2_relu = nn.ReLU(inplace=True)
+        # self.latlayer2 = nn.Conv2d(512,  256, kernel_size=1, stride=1, padding=0)
+        # self.latlayer2_bn = nn.BatchNorm2d(256)
+        # self.latlayer2_relu = nn.ReLU(inplace=True)
 
-        self.latlayer3 = nn.Conv2d(256,  256, kernel_size=1, stride=1, padding=0)
-        self.latlayer3_bn = nn.BatchNorm2d(256)
-        self.latlayer3_relu = nn.ReLU(inplace=True)
+        # self.latlayer3 = nn.Conv2d(256,  256, kernel_size=1, stride=1, padding=0)
+        # self.latlayer3_bn = nn.BatchNorm2d(256)
+        # self.latlayer3_relu = nn.ReLU(inplace=True)
 
-        self.conv2 = nn.Conv2d(1024, 256, kernel_size=3, stride=1, padding=1)
-        self.bn2 = nn.BatchNorm2d(256)
-        self.relu2 = nn.ReLU(inplace=True)
-        self.conv3 = nn.Conv2d(256, num_classes, kernel_size=1, stride=1, padding=0)
+        # self.conv2 = nn.Conv2d(1024, 256, kernel_size=3, stride=1, padding=1)
+        # self.bn2 = nn.BatchNorm2d(256)
+        # self.relu2 = nn.ReLU(inplace=True)
+        # self.conv3 = nn.Conv2d(256, num_classes, kernel_size=1, stride=1, padding=0)
 
-        self.scale = scale
+        # self.scale = scale
         
+        self.avgpool1 = nn.AvgPool2d(8, stride=1)
+        self.fc1 = nn.Linear(256, num_classes)
+        self.avgpool2 = nn.AvgPool2d(16, stride=1)
+        self.fc2 = nn.Linear(256, num_classes)
+
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
@@ -211,35 +217,46 @@ class ResNet(nn.Module):
         p4 = self.smooth1(p4)
         p4 = self.smooth1_relu(self.smooth1_bn(p4))
 
-        c3 = self.latlayer2(c3)
-        c3 = self.latlayer2_relu(self.latlayer2_bn(c3))
-        p3 = self._upsample_add(p4, c3)
-        p3 = self.smooth2(p3)
-        p3 = self.smooth2_relu(self.smooth2_bn(p3))        
+        # print(p5.shape)
+        # print(p4.shape)
+        
+        p5 = self.avgpool1(p5)
+        p5 = torch.flatten(p5, 1)
+        p5 = self.fc1(p5)
 
-        c2 = self.latlayer3(c2)
-        c2 = self.latlayer3_relu(self.latlayer3_bn(c2))
-        p2 = self._upsample_add(p3, c2)
-        p2 = self.smooth3(p2)
-        p2 = self.smooth3_relu(self.smooth3_bn(p2))
+        p4 = self.avgpool2(p4)
+        p4 = torch.flatten(p4, 1)
+        p4 = self.fc2(p4)
 
-        p3 = self._upsample(p3, p2)
-        p4 = self._upsample(p4, p2)
-        p5 = self._upsample(p5, p2)
+        # c3 = self.latlayer2(c3)
+        # c3 = self.latlayer2_relu(self.latlayer2_bn(c3))
+        # p3 = self._upsample_add(p4, c3)
+        # p3 = self.smooth2(p3)
+        # p3 = self.smooth2_relu(self.smooth2_bn(p3))        
 
-        out = torch.cat((p2, p3, p4, p5), 1)
-        out = self.conv2(out)
-        out = self.relu2(self.bn2(out))
-        out = self.conv3(out)
-        # out = self._upsample(out, x, scale=self.scale)
-        b = out.size()
-        out = out.view(b[0], b[1]*b[2]* b[3])
-        # out = out.permute(1,0)
-        # out = self.avgpool(out)
-        # print(out.shape)
-        out = self.fc1(out)
+        # c2 = self.latlayer3(c2)
+        # c2 = self.latlayer3_relu(self.latlayer3_bn(c2))
+        # p2 = self._upsample_add(p3, c2)
+        # p2 = self.smooth3(p2)
+        # p2 = self.smooth3_relu(self.smooth3_bn(p2))
 
-        return out
+        # p3 = self._upsample(p3, p2)
+        # p4 = self._upsample(p4, p2)
+        # p5 = self._upsample(p5, p2)
+
+        # out = torch.cat((p2, p3, p4, p5), 1)
+        # out = self.conv2(out)
+        # out = self.relu2(self.bn2(out))
+        # out = self.conv3(out)
+
+        # out = self.avgpool1(out)
+
+        # out = torch.flatten(out, 1)
+        # out = self.fc1(out)
+
+
+
+        return p4, p5
 
 
 def fpn_resnet18(pretrained=False, **kwargs):

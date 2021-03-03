@@ -12,7 +12,7 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from torch.utils import data
 import shutil
-from test_data_loader import testLoader
+from test_data_loader_seg import testLoader
 import models
 import util
 
@@ -28,11 +28,11 @@ def test(args):
 
     # Setup Model
     if args.arch == "resnet50":
-        model = models.resnet50(pretrained=True, num_classes=2)
+        model = models.fpn_resnet50(pretrained=True, num_classes=2)
     elif args.arch == "resnet101":
-        model = models.resnet101(pretrained=True, num_classes=2)
+        model = models.fpn_resnet101(pretrained=True, num_classes=2)
     elif args.arch == "resnet152":
-        model = models.resnet152(pretrained=True, num_classes=2)
+        model = models.fpn_resnet152(pretrained=True, num_classes=2)
     
     for param in model.parameters():
         param.requires_grad = False
@@ -75,13 +75,14 @@ def test(args):
         torch.cuda.synchronize()
         start = time.time()
 
-        outputs = model(img)
+        outputs1, outputs2 = model(img)
 
-        outputs = outputs.squeeze(0).cpu().numpy().astype(np.float32)
+        outputs1 = outputs1.squeeze(0).cpu().numpy().astype(np.float32)
+        outputs2 = outputs2.squeeze(0).cpu().numpy().astype(np.float32)
         # if outputs[0] > 0.5 :
         #     result = 0
         # else : result = 1
-        result = np.argmax(outputs)
+        result = np.argmax(outputs1 + outputs2)
 
         torch.cuda.synchronize()
         end = time.time()
@@ -90,7 +91,7 @@ def test(args):
         print('fps: %.2f'%(total_frame / total_time))
         sys.stdout.flush()
 
-        image_name = data_loader.img_paths[idx].split('/')[-1].split('.')[0]
+        image_name = data_loader.img_paths[idx][0].split('/')[-1].split('.')[0]
         util.io.write_lines(save_path, image_name+","+str(result)+'\n', 'a')
 
 if __name__ == '__main__':
@@ -99,7 +100,7 @@ if __name__ == '__main__':
     parser.add_argument('--resume', nargs='?', type=str, default='checkpoints/ic15_resnet50_bs_96_ep_15_best/checkpoint.pth.tar',    
                         help='Path to previous saved model to restart from')
     parser.add_argument('--image_size', nargs='?', type=int, default=256)
-    parser.add_argument('--save', nargs='?', type=str, default='./submission.csv',    
+    parser.add_argument('--save', nargs='?', type=str, default='./submission_fpn_seg.csv',    
                         help='Path to save results')
     args = parser.parse_args()
     test(args)

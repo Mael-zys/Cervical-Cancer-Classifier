@@ -1,0 +1,1 @@
+python train_fpn_fl.py --arch resnet101 --n_epoch 30 --schedule 10 20 --batch_size 64

@@ -1,0 +1,1 @@
+python train_multiclass_fpn_seg.py --arch resnet152 --lr 1e-3 --n_epoch 40 --schedule 20 35 --batch_size 64
