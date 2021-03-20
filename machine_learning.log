@@ -1,0 +1,21 @@
+read training data
+training data shape: (2921, 196608)
+
+read test data
+test data shape: (1252, 196608)
+
+pre processing
+After pre processing, training data shape: (2921, 500)
+After pre processing, test data shape: (1252, 500)
+
+SVM estimator
+Best training Score: 0.871046443112286
+Best training params: {'C': 1, 'gamma': 0.001}
+write results
+
+Random forest estimator
+Best Validation Score: 0.837565042962708
+Best params: {'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 30}
+write results
+
+Bagging estimator

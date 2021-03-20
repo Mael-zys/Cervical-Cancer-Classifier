@@ -1,0 +1,7 @@
+read training data
+training data shape: (2921, 196608)
+
+read test data
+test data shape: (1252, 196608)
+
+pre processing
