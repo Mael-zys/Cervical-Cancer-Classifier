@@ -103,31 +103,26 @@ def KNN_train_pre(X_train, X_test, y_train) :
 
 if __name__ == '__main__': 
     # read training data 
-    X_train, y_train = read_train_data(256)
+    X_train, y_train = read_train_data(128)
     
     # read test data
-    X_test, X_path = read_test_data(256)
+    X_test, X_path = read_test_data(128)
 
-    # pre processing (scale, PCA)
-    X_train_pca, X_test_pca, y_train = pre_process(X_train, X_test, y_train, 500)
+    print("\npre processing")
 
-    # SVM
-    y_pre_svm = SVM_train_pre(X_train_pca, X_test_pca, y_train)
-    write_data(y_pre_svm, "ABNORMAL", X_path, './submission_SVM.csv')
+    # Scale data (each feature will have average equal to 0 and unit variance)
+    scaler = StandardScaler()
+    scaler.fit(X_train)
+    X_train=scaler.transform(X_train)
+    X_test=scaler.transform(X_test)
 
-    # random forest
-    y_pre_rf = random_forest_train_pre(X_train_pca, X_test_pca, y_train)
-    write_data(y_pre_rf, "ABNORMAL", X_path, './submission_RF.csv')
+    # shuffle
+    indices = np.random.permutation(X_train.shape[0])
+    X_train = X_train[indices, :]
+    y_train = y_train[indices, :]
 
-    # bagging
-    y_pre_bag = bagging_train_pre(X_train_pca, X_test_pca, y_train)
-    write_data(y_pre_bag, "ABNORMAL", X_path, './submission_bag.csv')
-
-    # logistic
-    y_pre_log = logistic_train_pre(X_train_pca, X_test_pca, y_train)
-    write_data(y_pre_log, "ABNORMAL", X_path, './submission_log.csv')
-
-    # knn
-    y_pre_knn = KNN_train_pre(X_train_pca, X_test_pca, y_train)
-    write_data(y_pre_knn, "ABNORMAL", X_path, './submission_KNN.csv')
+    # PCA
+    pca = PCA(n_components=200,svd_solver='randomized', whiten=True)
+    pca.fit(X_train)
+    print(np.sum(pca.explained_variance_ratio_))
 

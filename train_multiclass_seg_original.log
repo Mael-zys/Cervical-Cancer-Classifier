@@ -1,0 +1,214 @@
+checkpoint path: checkpoints_multi_seg/original_ic15_resnet152_bs_96_ep_30
+init lr: 0.00100000
+schedule:  [10, 20, 30]
+Training from scratch.
+
+Epoch: [1 | 30] LR: 0.001000
+(1/22) Batch: 9.779s | TOTAL: 0min | ETA: 4min | Loss: 2.1670
+(11/22) Batch: 1.555s | TOTAL: 0min | ETA: 0min | Loss: 1.9040
+(21/22) Batch: 1.163s | TOTAL: 0min | ETA: 0min | Loss: 1.7359
+Validation: (1/10) Batch: 1.341s | TOTAL: 0min | ETA: 0min | Loss: 1.2732
+Validation: (6/10) Batch: 0.453s | TOTAL: 0min | ETA: 0min | Loss: 1.2691
+
+Epoch: [2 | 30] LR: 0.001000
+(1/22) Batch: 1.730s | TOTAL: 0min | ETA: 1min | Loss: 1.2945
+(11/22) Batch: 0.824s | TOTAL: 0min | ETA: 0min | Loss: 0.9793
+(21/22) Batch: 0.781s | TOTAL: 0min | ETA: 0min | Loss: 0.8609
+Validation: (1/10) Batch: 1.303s | TOTAL: 0min | ETA: 0min | Loss: 0.6617
+Validation: (6/10) Batch: 0.447s | TOTAL: 0min | ETA: 0min | Loss: 0.6328
+
+Epoch: [3 | 30] LR: 0.001000
+(1/22) Batch: 3.085s | TOTAL: 0min | ETA: 1min | Loss: 0.6749
+(11/22) Batch: 0.954s | TOTAL: 0min | ETA: 0min | Loss: 0.6033
+(21/22) Batch: 0.850s | TOTAL: 0min | ETA: 0min | Loss: 0.5947
+Validation: (1/10) Batch: 1.394s | TOTAL: 0min | ETA: 0min | Loss: 0.4956
+Validation: (6/10) Batch: 0.464s | TOTAL: 0min | ETA: 0min | Loss: 0.5276
+
+Epoch: [4 | 30] LR: 0.001000
+(1/22) Batch: 1.881s | TOTAL: 0min | ETA: 1min | Loss: 0.3782
+(11/22) Batch: 0.844s | TOTAL: 0min | ETA: 0min | Loss: 0.4761
+(21/22) Batch: 0.793s | TOTAL: 0min | ETA: 0min | Loss: 0.4740
+Validation: (1/10) Batch: 1.277s | TOTAL: 0min | ETA: 0min | Loss: 0.5503
+Validation: (6/10) Batch: 0.444s | TOTAL: 0min | ETA: 0min | Loss: 0.5683
+
+Epoch: [5 | 30] LR: 0.001000
+(1/22) Batch: 1.903s | TOTAL: 0min | ETA: 1min | Loss: 0.4120
+(11/22) Batch: 0.847s | TOTAL: 0min | ETA: 0min | Loss: 0.4500
+(21/22) Batch: 0.795s | TOTAL: 0min | ETA: 0min | Loss: 0.4604
+Validation: (1/10) Batch: 1.411s | TOTAL: 0min | ETA: 0min | Loss: 0.3926
+Validation: (6/10) Batch: 0.466s | TOTAL: 0min | ETA: 0min | Loss: 0.4139
+
+Epoch: [6 | 30] LR: 0.001000
+(1/22) Batch: 1.845s | TOTAL: 0min | ETA: 1min | Loss: 0.4736
+(11/22) Batch: 0.841s | TOTAL: 0min | ETA: 0min | Loss: 0.4013
+(21/22) Batch: 0.793s | TOTAL: 0min | ETA: 0min | Loss: 0.4142
+Validation: (1/10) Batch: 1.274s | TOTAL: 0min | ETA: 0min | Loss: 0.5377
+Validation: (6/10) Batch: 0.444s | TOTAL: 0min | ETA: 0min | Loss: 0.4587
+
+Epoch: [7 | 30] LR: 0.001000
+(1/22) Batch: 3.259s | TOTAL: 0min | ETA: 1min | Loss: 0.3215
+(11/22) Batch: 0.969s | TOTAL: 0min | ETA: 0min | Loss: 0.3838
+(21/22) Batch: 0.860s | TOTAL: 0min | ETA: 0min | Loss: 0.4071
+Validation: (1/10) Batch: 1.278s | TOTAL: 0min | ETA: 0min | Loss: 0.5786
+Validation: (6/10) Batch: 0.445s | TOTAL: 0min | ETA: 0min | Loss: 0.4183
+
+Epoch: [8 | 30] LR: 0.001000
+(1/22) Batch: 1.810s | TOTAL: 0min | ETA: 1min | Loss: 0.5485
+(11/22) Batch: 0.841s | TOTAL: 0min | ETA: 0min | Loss: 0.4019
+(21/22) Batch: 0.797s | TOTAL: 0min | ETA: 0min | Loss: 0.4414
+Validation: (1/10) Batch: 1.401s | TOTAL: 0min | ETA: 0min | Loss: 0.4086
+Validation: (6/10) Batch: 0.466s | TOTAL: 0min | ETA: 0min | Loss: 0.3461
+
+Epoch: [9 | 30] LR: 0.001000
+(1/22) Batch: 1.930s | TOTAL: 0min | ETA: 1min | Loss: 0.7259
+(11/22) Batch: 0.858s | TOTAL: 0min | ETA: 0min | Loss: 0.4604
+(21/22) Batch: 0.811s | TOTAL: 0min | ETA: 0min | Loss: 0.4673
+Validation: (1/10) Batch: 1.291s | TOTAL: 0min | ETA: 0min | Loss: 0.4311
+Validation: (6/10) Batch: 0.449s | TOTAL: 0min | ETA: 0min | Loss: 0.4059
+
+Epoch: [10 | 30] LR: 0.001000
+(1/22) Batch: 2.000s | TOTAL: 0min | ETA: 1min | Loss: 0.3386
+(11/22) Batch: 0.871s | TOTAL: 0min | ETA: 0min | Loss: 0.3973
+(21/22) Batch: 0.819s | TOTAL: 0min | ETA: 0min | Loss: 0.4098
+Validation: (1/10) Batch: 1.336s | TOTAL: 0min | ETA: 0min | Loss: 0.2964
+Validation: (6/10) Batch: 0.464s | TOTAL: 0min | ETA: 0min | Loss: 0.3855
+
+Epoch: [11 | 30] LR: 0.000100
+(1/22) Batch: 1.923s | TOTAL: 0min | ETA: 1min | Loss: 0.4574
+(11/22) Batch: 0.862s | TOTAL: 0min | ETA: 0min | Loss: 0.3669
+(21/22) Batch: 0.816s | TOTAL: 0min | ETA: 0min | Loss: 0.3516
+Validation: (1/10) Batch: 1.332s | TOTAL: 0min | ETA: 0min | Loss: 0.3578
+Validation: (6/10) Batch: 0.460s | TOTAL: 0min | ETA: 0min | Loss: 0.3163
+
+Epoch: [12 | 30] LR: 0.000100
+(1/22) Batch: 1.883s | TOTAL: 0min | ETA: 1min | Loss: 0.3166
+(11/22) Batch: 0.866s | TOTAL: 0min | ETA: 0min | Loss: 0.3196
+(21/22) Batch: 0.819s | TOTAL: 0min | ETA: 0min | Loss: 0.3130
+Validation: (1/10) Batch: 1.365s | TOTAL: 0min | ETA: 0min | Loss: 0.3036
+Validation: (6/10) Batch: 0.466s | TOTAL: 0min | ETA: 0min | Loss: 0.3056
+
+Epoch: [13 | 30] LR: 0.000100
+(1/22) Batch: 1.939s | TOTAL: 0min | ETA: 1min | Loss: 0.3857
+(11/22) Batch: 0.873s | TOTAL: 0min | ETA: 0min | Loss: 0.2941
+(21/22) Batch: 0.823s | TOTAL: 0min | ETA: 0min | Loss: 0.2982
+Validation: (1/10) Batch: 1.426s | TOTAL: 0min | ETA: 0min | Loss: 0.1993
+Validation: (6/10) Batch: 0.476s | TOTAL: 0min | ETA: 0min | Loss: 0.2393
+
+Epoch: [14 | 30] LR: 0.000100
+(1/22) Batch: 1.893s | TOTAL: 0min | ETA: 1min | Loss: 0.2891
+(11/22) Batch: 0.872s | TOTAL: 0min | ETA: 0min | Loss: 0.2901
+(21/22) Batch: 0.823s | TOTAL: 0min | ETA: 0min | Loss: 0.2972
+Validation: (1/10) Batch: 1.337s | TOTAL: 0min | ETA: 0min | Loss: 0.1952
+Validation: (6/10) Batch: 0.461s | TOTAL: 0min | ETA: 0min | Loss: 0.2318
+
+Epoch: [15 | 30] LR: 0.000100
+(1/22) Batch: 1.915s | TOTAL: 0min | ETA: 1min | Loss: 0.3107
+(11/22) Batch: 0.873s | TOTAL: 0min | ETA: 0min | Loss: 0.2628
+(21/22) Batch: 0.824s | TOTAL: 0min | ETA: 0min | Loss: 0.2675
+Validation: (1/10) Batch: 1.292s | TOTAL: 0min | ETA: 0min | Loss: 0.3265
+Validation: (6/10) Batch: 0.455s | TOTAL: 0min | ETA: 0min | Loss: 0.2973
+
+Epoch: [16 | 30] LR: 0.000100
+(1/22) Batch: 1.892s | TOTAL: 0min | ETA: 1min | Loss: 0.1949
+(11/22) Batch: 0.872s | TOTAL: 0min | ETA: 0min | Loss: 0.2853
+(21/22) Batch: 0.822s | TOTAL: 0min | ETA: 0min | Loss: 0.2772
+Validation: (1/10) Batch: 1.402s | TOTAL: 0min | ETA: 0min | Loss: 0.2758
+Validation: (6/10) Batch: 0.475s | TOTAL: 0min | ETA: 0min | Loss: 0.2703
+
+Epoch: [17 | 30] LR: 0.000100
+(1/22) Batch: 1.871s | TOTAL: 0min | ETA: 1min | Loss: 0.2645
+(11/22) Batch: 0.869s | TOTAL: 0min | ETA: 0min | Loss: 0.2379
+(21/22) Batch: 0.822s | TOTAL: 0min | ETA: 0min | Loss: 0.2542
+Validation: (1/10) Batch: 1.301s | TOTAL: 0min | ETA: 0min | Loss: 0.1934
+Validation: (6/10) Batch: 0.457s | TOTAL: 0min | ETA: 0min | Loss: 0.2867
+
+Epoch: [18 | 30] LR: 0.000100
+(1/22) Batch: 2.003s | TOTAL: 0min | ETA: 1min | Loss: 0.2298
+(11/22) Batch: 0.886s | TOTAL: 0min | ETA: 0min | Loss: 0.2477
+(21/22) Batch: 0.831s | TOTAL: 0min | ETA: 0min | Loss: 0.2564
+Validation: (1/10) Batch: 1.406s | TOTAL: 0min | ETA: 0min | Loss: 0.2713
+Validation: (6/10) Batch: 0.474s | TOTAL: 0min | ETA: 0min | Loss: 0.2310
+
+Epoch: [19 | 30] LR: 0.000100
+(1/22) Batch: 1.946s | TOTAL: 0min | ETA: 1min | Loss: 0.2482
+(11/22) Batch: 0.876s | TOTAL: 0min | ETA: 0min | Loss: 0.2133
+(21/22) Batch: 0.827s | TOTAL: 0min | ETA: 0min | Loss: 0.2316
+Validation: (1/10) Batch: 1.394s | TOTAL: 0min | ETA: 0min | Loss: 0.2094
+Validation: (6/10) Batch: 0.472s | TOTAL: 0min | ETA: 0min | Loss: 0.2645
+
+Epoch: [20 | 30] LR: 0.000100
+(1/22) Batch: 1.913s | TOTAL: 0min | ETA: 1min | Loss: 0.3165
+(11/22) Batch: 0.876s | TOTAL: 0min | ETA: 0min | Loss: 0.2345
+(21/22) Batch: 0.824s | TOTAL: 0min | ETA: 0min | Loss: 0.2387
+Validation: (1/10) Batch: 1.336s | TOTAL: 0min | ETA: 0min | Loss: 0.1992
+Validation: (6/10) Batch: 0.461s | TOTAL: 0min | ETA: 0min | Loss: 0.2423
+
+Epoch: [21 | 30] LR: 0.000010
+(1/22) Batch: 1.954s | TOTAL: 0min | ETA: 1min | Loss: 0.2669
+(11/22) Batch: 0.877s | TOTAL: 0min | ETA: 0min | Loss: 0.2232
+(21/22) Batch: 0.826s | TOTAL: 0min | ETA: 0min | Loss: 0.2258
+Validation: (1/10) Batch: 1.355s | TOTAL: 0min | ETA: 0min | Loss: 0.3551
+Validation: (6/10) Batch: 0.465s | TOTAL: 0min | ETA: 0min | Loss: 0.2572
+
+Epoch: [22 | 30] LR: 0.000010
+(1/22) Batch: 1.883s | TOTAL: 0min | ETA: 1min | Loss: 0.1978
+(11/22) Batch: 0.874s | TOTAL: 0min | ETA: 0min | Loss: 0.2425
+(21/22) Batch: 0.825s | TOTAL: 0min | ETA: 0min | Loss: 0.2491
+Validation: (1/10) Batch: 1.323s | TOTAL: 0min | ETA: 0min | Loss: 0.2139
+Validation: (6/10) Batch: 0.460s | TOTAL: 0min | ETA: 0min | Loss: 0.2477
+
+Epoch: [23 | 30] LR: 0.000010
+(1/22) Batch: 3.033s | TOTAL: 0min | ETA: 1min | Loss: 0.2954
+(11/22) Batch: 0.977s | TOTAL: 0min | ETA: 0min | Loss: 0.2527
+(21/22) Batch: 0.878s | TOTAL: 0min | ETA: 0min | Loss: 0.2331
+Validation: (1/10) Batch: 1.363s | TOTAL: 0min | ETA: 0min | Loss: 0.2576
+Validation: (6/10) Batch: 0.467s | TOTAL: 0min | ETA: 0min | Loss: 0.2577
+
+Epoch: [24 | 30] LR: 0.000010
+(1/22) Batch: 2.005s | TOTAL: 0min | ETA: 1min | Loss: 0.2029
+(11/22) Batch: 0.883s | TOTAL: 0min | ETA: 0min | Loss: 0.2492
+(21/22) Batch: 0.829s | TOTAL: 0min | ETA: 0min | Loss: 0.2407
+Validation: (1/10) Batch: 1.310s | TOTAL: 0min | ETA: 0min | Loss: 0.1620
+Validation: (6/10) Batch: 0.458s | TOTAL: 0min | ETA: 0min | Loss: 0.2503
+
+Epoch: [25 | 30] LR: 0.000010
+(1/22) Batch: 1.902s | TOTAL: 0min | ETA: 1min | Loss: 0.1826
+(11/22) Batch: 0.875s | TOTAL: 0min | ETA: 0min | Loss: 0.2165
+(21/22) Batch: 0.827s | TOTAL: 0min | ETA: 0min | Loss: 0.2201
+Validation: (1/10) Batch: 1.311s | TOTAL: 0min | ETA: 0min | Loss: 0.1945
+Validation: (6/10) Batch: 0.458s | TOTAL: 0min | ETA: 0min | Loss: 0.2625
+
+Epoch: [26 | 30] LR: 0.000010
+(1/22) Batch: 1.860s | TOTAL: 0min | ETA: 1min | Loss: 0.2427
+(11/22) Batch: 0.870s | TOTAL: 0min | ETA: 0min | Loss: 0.2307
+(21/22) Batch: 0.824s | TOTAL: 0min | ETA: 0min | Loss: 0.2424
+Validation: (1/10) Batch: 1.371s | TOTAL: 0min | ETA: 0min | Loss: 0.1187
+Validation: (6/10) Batch: 0.468s | TOTAL: 0min | ETA: 0min | Loss: 0.2468
+
+Epoch: [27 | 30] LR: 0.000010
+(1/22) Batch: 1.941s | TOTAL: 0min | ETA: 1min | Loss: 0.2642
+(11/22) Batch: 0.882s | TOTAL: 0min | ETA: 0min | Loss: 0.2502
+(21/22) Batch: 0.831s | TOTAL: 0min | ETA: 0min | Loss: 0.2336
+Validation: (1/10) Batch: 1.317s | TOTAL: 0min | ETA: 0min | Loss: 0.1638
+Validation: (6/10) Batch: 0.463s | TOTAL: 0min | ETA: 0min | Loss: 0.2301
+
+Epoch: [28 | 30] LR: 0.000010
+(1/22) Batch: 1.952s | TOTAL: 0min | ETA: 1min | Loss: 0.2653
+(11/22) Batch: 0.882s | TOTAL: 0min | ETA: 0min | Loss: 0.2554
+(21/22) Batch: 0.829s | TOTAL: 0min | ETA: 0min | Loss: 0.2511
+Validation: (1/10) Batch: 1.386s | TOTAL: 0min | ETA: 0min | Loss: 0.2696
+Validation: (6/10) Batch: 0.472s | TOTAL: 0min | ETA: 0min | Loss: 0.2056
+
+Epoch: [29 | 30] LR: 0.000010
+(1/22) Batch: 1.977s | TOTAL: 0min | ETA: 1min | Loss: 0.2034
+(11/22) Batch: 0.883s | TOTAL: 0min | ETA: 0min | Loss: 0.2506
+(21/22) Batch: 0.831s | TOTAL: 0min | ETA: 0min | Loss: 0.2381
+Validation: (1/10) Batch: 1.433s | TOTAL: 0min | ETA: 0min | Loss: 0.2323
+Validation: (6/10) Batch: 0.479s | TOTAL: 0min | ETA: 0min | Loss: 0.2476
+
+Epoch: [30 | 30] LR: 0.000010
+(1/22) Batch: 1.912s | TOTAL: 0min | ETA: 1min | Loss: 0.2242
+(11/22) Batch: 0.872s | TOTAL: 0min | ETA: 0min | Loss: 0.2277
+(21/22) Batch: 0.825s | TOTAL: 0min | ETA: 0min | Loss: 0.2404
+Validation: (1/10) Batch: 1.390s | TOTAL: 0min | ETA: 0min | Loss: 0.2795
+Validation: (6/10) Batch: 0.471s | TOTAL: 0min | ETA: 0min | Loss: 0.2598

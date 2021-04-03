@@ -1,0 +1,68 @@
+
+Calculating descriptor for all images:
+descriptors.shape: (680240, 32)
+Calculating descriptors for all images completed!
+
+Running kmeans with cluster 5:
+cluster 5: sse is 31018588583.913223
+time of running : 0:00:21.544616
+
+Running kmeans with cluster 10:
+cluster 10: sse is 22728418193.811764
+time of running : 0:00:38.192856
+
+Running kmeans with cluster 20:
+cluster 20: sse is 16481909852.519627
+time of running : 0:00:51.352344
+
+Running kmeans with cluster 30:
+cluster 30: sse is 13684539981.03901
+time of running : 0:01:16.197557
+
+Running kmeans with cluster 40:
+cluster 40: sse is 12024296620.63145
+time of running : 0:01:33.336772
+
+Running kmeans with cluster 50:
+cluster 50: sse is 10775603957.777046
+time of running : 0:01:34.844780
+
+Running kmeans with cluster 60:
+cluster 60: sse is 9865763886.11664
+time of running : 0:02:09.896812
+
+Running kmeans with cluster 70:
+cluster 70: sse is 9176216151.570686
+time of running : 0:02:19.303135
+
+Running kmeans with cluster 80:
+cluster 80: sse is 8488175634.99384
+time of running : 0:02:32.805794
+
+Running kmeans with cluster 90:
+cluster 90: sse is 8122226860.839031
+time of running : 0:03:00.276366
+
+Running kmeans with cluster 100:
+cluster 100: sse is 7641439322.258899
+time of running : 0:03:04.584762
+
+Running kmeans with cluster 110:
+cluster 110: sse is 7304032178.375306
+time of running : 0:03:18.630373
+
+Running kmeans with cluster 120:
+cluster 120: sse is 6981446633.508292
+time of running : 0:03:31.029841
+
+Running kmeans with cluster 130:
+cluster 130: sse is 6659530122.667038
+time of running : 0:03:39.392860
+
+Running kmeans with cluster 140:
+cluster 140: sse is 6386193745.317616
+time of running : 0:04:24.263553
+
+Running kmeans with cluster 150:
+cluster 150: sse is 6079206049.287977
+time of running : 0:07:56.022208

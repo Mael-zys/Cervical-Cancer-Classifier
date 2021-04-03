@@ -1,1 +1,1 @@
-python evaluate_multiclass.py --arch resnet152 --resume checkpoints_multi_fl/ic15_resnet152_bs_64_ep_30/checkpoint.pth.tar
+python evaluate_multiclass.py --arch resnet152 --resume checkpoints_multi/ic15_resnet152_bs_96_ep_35/checkpoint.pth.tar

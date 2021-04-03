@@ -1,7 +1,112 @@
 read training data
-training data shape: (2921, 196608)
+training data shape: (2921, 52)
 
 read test data
-test data shape: (1252, 196608)
+test data shape: (1252, 52)
 
 pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 52)
+After pre processing, test data shape: (1252, 52)
+
+PSO-SVM estimator
+Number of iterations: 1. Best fitness: 0.3823
+Number of iterations: 2. Best fitness: 0.7212
+Number of iterations: 3. Best fitness: 0.7212
+Number of iterations: 4. Best fitness: 0.7212
+Number of iterations: 5. Best fitness: 0.7212
+Number of iterations: 6. Best fitness: 0.7212
+Number of iterations: 7. Best fitness: 0.7219
+Number of iterations: 8. Best fitness: 0.7219
+Number of iterations: 9. Best fitness: 0.7220
+Number of iterations: 10. Best fitness: 0.7220
+Best training Score: 0.7220314616448911
+Best training params: (12.281500797494324, 0.00390625)
+write results
+read training data
+training data shape: (2921, 20)
+
+read test data
+test data shape: (1252, 20)
+
+pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 20)
+After pre processing, test data shape: (1252, 20)
+
+SVM estimator
+Best training Score: 0.6771786115608993
+Best training params: {'C': 100.0, 'gamma': 0.005}
+write results
+read training data
+training data shape: (2921, 92)
+
+read test data
+test data shape: (1252, 92)
+
+pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 92)
+After pre processing, test data shape: (1252, 92)
+
+SVM estimator
+Best training Score: 0.7334830104961567
+Best training params: {'C': 60, 'gamma': 0.0005}
+write results
+read training data
+Traceback (most recent call last):
+  File "/home/zhangyangsong/env1/lib/python3.6/site-packages/numpy/lib/arraysetops.py", line 268, in unique
+    ar = np.moveaxis(ar, axis, 0)
+  File "<__array_function__ internals>", line 6, in moveaxis
+  File "/home/zhangyangsong/env1/lib/python3.6/site-packages/numpy/core/numeric.py", line 1397, in moveaxis
+    source = normalize_axis_tuple(source, a.ndim, 'source')
+  File "/home/zhangyangsong/env1/lib/python3.6/site-packages/numpy/core/numeric.py", line 1327, in normalize_axis_tuple
+    axis = tuple([normalize_axis_index(ax, ndim, argname) for ax in axis])
+  File "/home/zhangyangsong/env1/lib/python3.6/site-packages/numpy/core/numeric.py", line 1327, in <listcomp>
+    axis = tuple([normalize_axis_index(ax, ndim, argname) for ax in axis])
+numpy.AxisError: source: axis 1 is out of bounds for array of dimension 1
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "machine_learning_main.py", line 115, in <module>
+    main(args)
+  File "machine_learning_main.py", line 64, in main
+    X_train, y_train, code_book = read_train_data(img_size = args.img_size, label_name = label_name, feature_mode = args.feature_mode, mask_mode = args.mask_mode, sift_orb = args.sift_orb, num_clusters = args.num_clusters)
+  File "/home/zhangyangsong/IMA205/machine_learning_dataloader.py", line 109, in read_train_data
+    feature = np.unique(feature, axis=1) 
+  File "<__array_function__ internals>", line 6, in unique
+  File "/home/zhangyangsong/env1/lib/python3.6/site-packages/numpy/lib/arraysetops.py", line 271, in unique
+    raise np.AxisError(axis, ar.ndim)
+numpy.AxisError: axis 1 is out of bounds for array of dimension 1
+read training data
+training data shape: (2921, 92)
+
+read test data
+test data shape: (1252, 92)
+
+pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 92)
+After pre processing, test data shape: (1252, 92)
+
+SVM estimator
+Best training Score: 0.7328268001958296
+Best training params: {'C': 20, 'gamma': 0.001}
+write results
+read training data
+training data shape: (2921, 92)
+
+read test data
+test data shape: (1252, 92)
+
+pre processing
+scaling and shuffling
+pca mode is: pca
+After pre processing, training data shape: (2921, 80)
+After pre processing, test data shape: (1252, 80)
+
+SVM estimator
+Best training Score: 0.7357380809796171
+Best training params: {'C': 10.0, 'gamma': 0.005}
+write results

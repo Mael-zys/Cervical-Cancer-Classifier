@@ -19,7 +19,7 @@ import util
 from torch.utils.data import random_split
 import matplotlib.pyplot as plt
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '1,2,3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 
 def train_loss_plot(train_loss_list=[], val_loss_list=[], name=''):
     x1 = range(0, len(train_loss_list))

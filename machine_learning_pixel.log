@@ -1,0 +1,255 @@
+
+read training data
+training data shape: (2921, 52)
+
+read test data
+Number of iterations: 9. Best fitness: 0.9648
+test data shape: (1252, 52)
+
+pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 52)
+After pre processing, test data shape: (1252, 52)
+
+PSO-SVM estimator
+Number of iterations: 1. Best fitness: 0.7138
+Number of iterations: 2. Best fitness: 0.7176
+Number of iterations: 3. Best fitness: 0.9632
+Number of iterations: 10. Best fitness: 0.9648
+Number of iterations: 4. Best fitness: 0.9635
+Number of iterations: 5. Best fitness: 0.9657
+/home/zhangyangsong/env1/lib/python3.6/site-packages/joblib/externals/loky/backend/resource_tracker.py:320: UserWarning: resource_tracker: There appear to be 1 leaked file objects to clean up at shutdown
+  (len(rtype_registry), rtype))
+/home/zhangyangsong/env1/lib/python3.6/site-packages/joblib/externals/loky/backend/resource_tracker.py:320: UserWarning: resource_tracker: There appear to be 14 leaked semlock objects to clean up at shutdown
+  (len(rtype_registry), rtype))
+/home/zhangyangsong/env1/lib/python3.6/site-packages/joblib/externals/loky/backend/resource_tracker.py:320: UserWarning: resource_tracker: There appear to be 266 leaked folder objects to clean up at shutdown
+  (len(rtype_registry), rtype))
+read training data
+training data shape: (2921, 52)
+
+read test data
+test data shape: (1252, 52)
+
+pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 52)
+After pre processing, test data shape: (1252, 52)
+
+PSO-SVM estimator
+Number of iterations: 1. Best fitness: 0.7132
+Number of iterations: 2. Best fitness: 0.7132
+Number of iterations: 3. Best fitness: 0.7132
+Number of iterations: 4. Best fitness: 0.7132
+Number of iterations: 5. Best fitness: 0.7132
+Number of iterations: 6. Best fitness: 0.7132
+Number of iterations: 7. Best fitness: 0.7132
+Number of iterations: 8. Best fitness: 0.7132
+Number of iterations: 9. Best fitness: 0.7132
+Number of iterations: 10. Best fitness: 0.7132
+Number of iterations: 11. Best fitness: 0.7132
+Number of iterations: 12. Best fitness: 0.7132
+Number of iterations: 13. Best fitness: 0.7132
+Number of iterations: 14. Best fitness: 0.7132
+Number of iterations: 15. Best fitness: 0.7132
+Number of iterations: 16. Best fitness: 0.7132
+Number of iterations: 17. Best fitness: 0.7132
+Number of iterations: 18. Best fitness: 0.7132
+Number of iterations: 19. Best fitness: 0.7132
+Number of iterations: 20. Best fitness: 0.7132
+Number of iterations: 21. Best fitness: 0.7132
+Number of iterations: 22. Best fitness: 0.7132
+Number of iterations: 23. Best fitness: 0.7132
+Number of iterations: 24. Best fitness: 0.7132
+/home/zhangyangsong/env1/lib/python3.6/site-packages/joblib/externals/loky/backend/resource_tracker.py:320: UserWarning: resource_tracker: There appear to be 1 leaked file objects to clean up at shutdown
+  (len(rtype_registry), rtype))
+/home/zhangyangsong/env1/lib/python3.6/site-packages/joblib/externals/loky/backend/resource_tracker.py:320: UserWarning: resource_tracker: There appear to be 14 leaked semlock objects to clean up at shutdown
+  (len(rtype_registry), rtype))
+/home/zhangyangsong/env1/lib/python3.6/site-packages/joblib/externals/loky/backend/resource_tracker.py:320: UserWarning: resource_tracker: There appear to be 1238 leaked folder objects to clean up at shutdown
+  (len(rtype_registry), rtype))
+read training data
+training data shape: (2921, 52)
+
+read test data
+test data shape: (1252, 52)
+
+pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 52)
+After pre processing, test data shape: (1252, 52)
+
+PSO-SVM estimator
+Number of iterations: 1. Best fitness: 0.7154
+Number of iterations: 2. Best fitness: 0.7161
+Number of iterations: 3. Best fitness: 0.9644
+Number of iterations: 4. Best fitness: 0.9644
+Number of iterations: 5. Best fitness: 0.9644
+Number of iterations: 6. Best fitness: 0.9644
+Number of iterations: 7. Best fitness: 0.9644
+Number of iterations: 8. Best fitness: 0.9644
+Number of iterations: 9. Best fitness: 0.9644
+Number of iterations: 10. Best fitness: 0.9644
+Number of iterations: 11. Best fitness: 0.9644
+Number of iterations: 12. Best fitness: 0.9644
+Number of iterations: 13. Best fitness: 0.9644
+Number of iterations: 14. Best fitness: 0.9644
+Number of iterations: 15. Best fitness: 0.9644
+Number of iterations: 16. Best fitness: 0.9644
+Number of iterations: 17. Best fitness: 0.9644
+Number of iterations: 18. Best fitness: 0.9644
+Number of iterations: 19. Best fitness: 0.9644
+Number of iterations: 20. Best fitness: 0.9644
+Number of iterations: 21. Best fitness: 0.9644
+Number of iterations: 22. Best fitness: 0.9644
+Number of iterations: 23. Best fitness: 0.9644
+Number of iterations: 24. Best fitness: 0.9644
+Number of iterations: 25. Best fitness: 0.9644
+Number of iterations: 26. Best fitness: 0.9644
+Number of iterations: 27. Best fitness: 0.9644
+Number of iterations: 28. Best fitness: 0.9644
+Number of iterations: 29. Best fitness: 0.9644
+Number of iterations: 30. Best fitness: 0.9644
+Number of iterations: 31. Best fitness: 0.9644
+Number of iterations: 32. Best fitness: 0.9644
+Number of iterations: 33. Best fitness: 0.9644
+Number of iterations: 34. Best fitness: 0.9644
+Number of iterations: 35. Best fitness: 0.9644
+Number of iterations: 36. Best fitness: 0.9644
+Number of iterations: 37. Best fitness: 0.9644
+Number of iterations: 38. Best fitness: 0.9644
+Number of iterations: 39. Best fitness: 0.9644
+Number of iterations: 40. Best fitness: 0.9644
+Number of iterations: 41. Best fitness: 0.9644
+Number of iterations: 42. Best fitness: 0.9644
+Number of iterations: 43. Best fitness: 0.9644
+Number of iterations: 44. Best fitness: 0.9644
+Number of iterations: 45. Best fitness: 0.9644
+Number of iterations: 46. Best fitness: 0.9644
+Number of iterations: 47. Best fitness: 0.9644
+Number of iterations: 48. Best fitness: 0.9644
+Number of iterations: 49. Best fitness: 0.9644
+Number of iterations: 50. Best fitness: 0.9644
+Best training Score: 0.9643941734717135
+Traceback (most recent call last):
+  File "machine_learning_main.py", line 115, in <module>
+    main(args)
+  File "machine_learning_main.py", line 74, in main
+    y_pre = classifier(X_train, X_test, y_train, binary = args.binary, cv_mode = args.cv_mode)
+  File "/home/zhangyangsong/IMA205/machine_learning_classifier.py", line 173, in PSO_SVM_train_prediction
+    print("Best training params: {}, {}".format((C, gamma)))
+IndexError: tuple index out of range
+read training data
+training data shape: (2921, 52)
+
+read test data
+test data shape: (1252, 52)
+
+pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 52)
+After pre processing, test data shape: (1252, 52)
+
+PSO-SVM estimator
+Number of iterations: 1. Best fitness: 0.7132
+Number of iterations: 2. Best fitness: 0.7132
+Number of iterations: 3. Best fitness: 0.7132
+Number of iterations: 4. Best fitness: 0.7132
+Number of iterations: 5. Best fitness: 0.7132
+Number of iterations: 6. Best fitness: 0.7132
+Number of iterations: 7. Best fitness: 0.7132
+Number of iterations: 8. Best fitness: 0.7132
+Number of iterations: 9. Best fitness: 0.7132
+Number of iterations: 10. Best fitness: 0.7132
+Best training Score: 0.7132157195728218
+Best training params: (152.28462506844133, 19.71244149784492)
+write results
+read training data
+training data shape: (2921, 52)
+
+read test data
+test data shape: (1252, 52)
+
+pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 52)
+After pre processing, test data shape: (1252, 52)
+
+PSO-SVM estimator
+Number of iterations: 1. Best fitness: 0.9155
+Number of iterations: 2. Best fitness: 0.9646
+Number of iterations: 3. Best fitness: 0.9646
+Number of iterations: 4. Best fitness: 0.9646
+Number of iterations: 5. Best fitness: 0.9646
+Number of iterations: 6. Best fitness: 0.9646
+Number of iterations: 7. Best fitness: 0.9646
+Number of iterations: 8. Best fitness: 0.9646
+Number of iterations: 9. Best fitness: 0.9646
+Number of iterations: 10. Best fitness: 0.9646
+Best training Score: 0.9646377500500973
+Best training params: (14.2379540728578, 0.00390625)
+write results
+read training data
+training data shape: (2921, 52)
+
+read test data
+test data shape: (1252, 52)
+
+pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 52)
+After pre processing, test data shape: (1252, 52)
+
+PSO-SVM estimator
+Number of iterations: 1. Best fitness: 0.7344
+Number of iterations: 2. Best fitness: 0.9580
+Number of iterations: 3. Best fitness: 0.9624
+Number of iterations: 4. Best fitness: 0.9624
+Number of iterations: 5. Best fitness: 0.9624
+Number of iterations: 6. Best fitness: 0.9624
+Number of iterations: 7. Best fitness: 0.9650
+Number of iterations: 8. Best fitness: 0.9650
+Number of iterations: 9. Best fitness: 0.9650
+Number of iterations: 10. Best fitness: 0.9650
+Number of iterations: 11. Best fitness: 0.9650
+Number of iterations: 12. Best fitness: 0.9650
+Number of iterations: 13. Best fitness: 0.9650
+Number of iterations: 14. Best fitness: 0.9650
+Number of iterations: 15. Best fitness: 0.9650
+Number of iterations: 16. Best fitness: 0.9650
+Number of iterations: 17. Best fitness: 0.9650
+Number of iterations: 18. Best fitness: 0.9650
+Number of iterations: 19. Best fitness: 0.9650
+Number of iterations: 20. Best fitness: 0.9650
+Best training Score: 0.9650225108164788
+Best training params: (12.318062829262654, 0.012398428222747171)
+write results
+read training data
+training data shape: (2921, 92)
+
+read test data
+test data shape: (1252, 92)
+
+pre processing
+scaling and shuffling
+pca mode is: pca
+After pre processing, training data shape: (2921, 80)
+After pre processing, test data shape: (1252, 80)
+
+SVM estimator
+Best training Score: 0.9681854147227744
+Best training params: {'C': 10.0, 'gamma': 0.005}
+write results
+read training data
+training data shape: (2921, 92)
+
+read test data
+test data shape: (1252, 92)
+
+pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 92)
+After pre processing, test data shape: (1252, 92)
+
+SVM estimator
+Best training Score: 0.9711964890186717
+Best training params: {'C': 10.0, 'gamma': 0.01}
+write results
