@@ -110,3 +110,39 @@ SVM estimator
 Best training Score: 0.7357380809796171
 Best training params: {'C': 10.0, 'gamma': 0.005}
 write results
+read training data
+training data shape: (2921, 92)
+
+read test data
+test data shape: (1252, 92)
+
+pre processing
+scaling and shuffling
+feature selection mode is: RF
+After pre processing, training data shape: (2921, 50)
+After pre processing, test data shape: (1252, 50)
+
+PSO-SVM estimator
+Number of iterations: 1. Best fitness: 0.7166
+Number of iterations: 2. Best fitness: 0.7332
+Number of iterations: 3. Best fitness: 0.7332
+Number of iterations: 4. Best fitness: 0.7332
+Number of iterations: 5. Best fitness: 0.7332
+Number of iterations: 6. Best fitness: 0.7332
+Number of iterations: 7. Best fitness: 0.7332
+Number of iterations: 8. Best fitness: 0.7332
+Number of iterations: 9. Best fitness: 0.7332
+Number of iterations: 10. Best fitness: 0.7332
+Number of iterations: 11. Best fitness: 0.7332
+Number of iterations: 12. Best fitness: 0.7332
+Number of iterations: 13. Best fitness: 0.7332
+Number of iterations: 14. Best fitness: 0.7332
+Number of iterations: 15. Best fitness: 0.7332
+Number of iterations: 16. Best fitness: 0.7332
+Number of iterations: 17. Best fitness: 0.7332
+Number of iterations: 18. Best fitness: 0.7332
+Number of iterations: 19. Best fitness: 0.7332
+Number of iterations: 20. Best fitness: 0.7332
+Best training Score: 0.7331762884565948
+Best training params: (20.0, 0.00390625)
+write results

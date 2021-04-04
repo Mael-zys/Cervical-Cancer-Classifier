@@ -1,11 +1,14 @@
 import warnings
 
-from ailearn.Swarm import PSO
 import numpy as np
+from ailearn.Swarm import PSO
+
 warnings.filterwarnings("ignore")
 
 import random
 
+import sklearn
+from xgboost import XGBClassifier
 from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
@@ -13,6 +16,7 @@ from sklearn.model_selection import (GridSearchCV, RandomizedSearchCV,
                                      cross_val_score, cross_validate,
                                      train_test_split)
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import shuffle
@@ -176,4 +180,63 @@ def PSO_SVM_train_prediction(X_train, X_test, y_train, binary = True, cv_mode = 
     best_svc.fit(X_train, y_train.ravel())
     y_pre = best_svc.predict(X_test)
 
+    return y_pre
+
+def XGBoost_train_prediction(X_train, X_test, y_train, binary = True, cv_mode = "Grid") :
+    print("\nXGBoost estimator")
+    
+    if binary:
+        scoring = "f1"
+    else:
+        scoring = "f1_macro"
+
+    # XGB
+    XGB = XGBClassifier()
+    p_grid_xgb = dict(
+        max_depth = [4, 5, 6, 7],
+        learning_rate = np.linspace(0.03, 0.3, 10),
+        n_estimators = [100, 200]
+    )
+
+    if cv_mode == "Grid":
+        grid_xgb = GridSearchCV(estimator=XGB, param_grid=p_grid_xgb, scoring=scoring, cv=5, n_jobs = 8)
+    else:
+        grid_xgb = RandomizedSearchCV(estimator=XGB, param_distributions=p_grid_xgb, scoring=scoring, cv=5, n_jobs = 8)
+
+    grid_xgb.fit(X_train, y_train.ravel())
+
+    print("Best Validation Score: {}".format(grid_xgb.best_score_))
+    print("Best params: {}".format(grid_xgb.best_params_))
+    y_pre = grid_xgb.predict(X_test)
+    return y_pre
+
+def MLP_train_prediction(X_train, X_test, y_train, binary = True, cv_mode = "Grid") :
+    print("\nMLP estimator")
+    
+    if binary:
+        scoring = "f1"
+    else:
+        scoring = "f1_macro"
+
+    # MLP
+    MLP = MLPClassifier(activation='relu', alpha=1e-3, batch_size='auto', beta_1=0.9,
+       beta_2=0.999, early_stopping=False, epsilon=1e-08,
+       hidden_layer_sizes=(100, 100), 
+       learning_rate_init=0.001, max_iter=1000, momentum=0.9,
+       nesterovs_momentum=True, power_t=0.5, random_state=1, shuffle=True,
+       tol=0.0001, validation_fraction=0.1, verbose=False,
+       warm_start=False, verbose=10)
+
+    p_grid_mlp = {'solver':['adam', 'sgd'], 'learning_rate' = ['adaptive', 'constant']}
+
+    if cv_mode == "Grid":
+        grid_mlp = GridSearchCV(estimator=MLP, param_grid=p_grid_mlp, scoring=scoring, cv=5, n_jobs = 8)
+    else:
+        grid_mlp = RandomizedSearchCV(estimator=MLP, param_distributions=p_grid_mlp, scoring=scoring, cv=5, n_jobs = 8)
+
+    grid_mlp.fit(X_train, y_train.ravel())
+
+    print("Best Validation Score: {}".format(grid_mlp.best_score_))
+    print("Best params: {}".format(grid_mlp.best_params_))
+    y_pre = grid_mlp.predict(X_test)
     return y_pre

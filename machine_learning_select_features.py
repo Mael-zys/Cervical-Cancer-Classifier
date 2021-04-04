@@ -21,8 +21,8 @@ import util
 
 
 # feature selection
-# pca_mode can be {None, "pca", "kpca", "spca"}
-def select_features(X_train, X_test, y_train, select_feature = None, n_component = 500) :
+# select_feature can be {None, "pca", "kpca", "spca", "select_best", "RF", "ExtraTrees", "shap", "RFECV", "SFS", "permutation"}
+def select_features(X_train, X_test, y_train, select_feature = None, n_component = 20) :
     
     if select_feature is not None:
         print("feature selection mode is: " + select_feature)
@@ -54,7 +54,7 @@ def select_features(X_train, X_test, y_train, select_feature = None, n_component
     # Variable Ranking
     elif select_feature == "select_best":
         bestfeatures = SelectKBest(score_func=f_classif, k=n_component)
-        bestfeatures.fit(X_train, y_train)
+        bestfeatures.fit(X_train, y_train.ravel())
 
         X_train = bestfeatures.transform(X_train)
         X_test = bestfeatures.transform(X_test)
@@ -62,59 +62,79 @@ def select_features(X_train, X_test, y_train, select_feature = None, n_component
     # Built-in Feature Importance: RF
     elif select_feature == "RF":
         model = RandomForestClassifier(n_jobs=8, random_state=0)
-        model.fit(X_train, y_train)
-        model.feature_importances_
+        model.fit(X_train, y_train.ravel())
+
+        feature_importance = model.feature_importances_
+        index = np.argsort(feature_importance)[-1:-n_component-1:-1]
+
+        X_train = X_train[:, index]
+        X_test = X_test[:, index]
 
     # Built-in Feature Importance: ExtraTreesClassifier
     elif select_feature == "ExtraTrees":
         model = ExtraTreesClassifier(n_jobs=8, random_state=0)
-        model.fit(X_train, y_train)
-        model.feature_importances_
+        model.fit(X_train, y_train.ravel())
+
+        feature_importance = model.feature_importances_
+        index = np.argsort(feature_importance)[-1:-n_component-1:-1]
+
+        X_train = X_train[:, index]
+        X_test = X_test[:, index]
 
     # shap
+    # https://github.com/slundberg/shap
     elif select_feature == "shap":
         model = RandomForestClassifier(n_jobs=8, random_state=0)
-        model.fit(X_train, y_train)
+        model.fit(X_train, y_train.ravel())
+
         explainer = shap.TreeExplainer(model)
-        shap_values_train = explainer.shap_values(X_train)
-        shap_values_test = explainer.shap_values(X_test)
+        shap_values = explainer.shap_values(X_train)
+
+        shap_values_mean = np.mean(np.abs(shap_values[0]),axis=0)
+        index = np.argsort(np.abs(shap_values_mean))[-1:-n_component-1:-1]
+
+        X_train = X_train[:, index]
+        X_test = X_test[:, index]
 
     # Recursive Feature Elimination
-    elif select_feature == "RFE":
-        # Instantiate RFECV visualizer with a random forest regressor
-        rfecv = RFECV(RandomForestRegressor())
+    elif select_feature == "RFECV":
+        # Instantiate RFECV visualizer with a random forest classifier
+        rfecv = RFECV(RandomForestClassifier(), n_jobs=8)
 
-        rfecv.fit(X_train, y_train) # Fit the data to the visualizer
+        rfecv.fit(X_train, y_train.ravel()) # Fit the data to the visualizer
 
-        print("Optimal number of features : %d" % rfecv.n_features_)
+        X_train = rfecv.transform(X_train)
+        X_test = rfecv.transform(X_test)
 
     # Sequential Feature Selection
     elif select_feature == "SFS":
-        # Build RF regressor to use in feature selection
-        clf = RandomForestRegressor()
+        # Build RF classifier to use in feature selection
+        clf = RandomForestClassifier()
 
         # Sequential Forward Selection
-        sfs = sfs(clf,
-                k_features=5, 
+        SFS = sfs(clf,
+                k_features=n_component, 
                 forward=True,
                 floating=False,
-                verbose=2,
                 scoring='neg_mean_squared_error',
+                verbose=1,
+                n_jobs=8,
                 cv=5)
 
-        sfs = sfs.fit(X_train, y_train)
+        SFS = SFS.fit(X_train, y_train.ravel())
 
-        print('\nSequential Forward Selection (k=5):')
-        print(sfs.k_feature_idx_)
-        print('CV Score:')
-        print(sfs.k_score_)
+        X_train = SFS.transform(X_train)
+        X_test = SFS.transform(X_test)
 
     # Permutation importance
     elif select_feature == "permutation":
-        rf = RandomForestRegressor()
+        rf = RandomForestClassifier()
         rf.fit(X_train, y_train)
-        result = permutation_importance(rf, X, y, n_repeats=10,
-                                        random_state=42, n_jobs=2)
-        sorted_idx = result.importances_mean.argsort()
+        result = permutation_importance(rf, X_train, y_train.ravel(), n_repeats=10,
+                                        random_state=42, n_jobs=8)
+        sorted_idx = result.importances_mean.argsort()[-1:-n_component-1:-1]
+
+        X_train = X_train[:, index]
+        X_test = X_test[:, index]
 
     return X_train, X_test

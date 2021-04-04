@@ -9,7 +9,7 @@ from PIL import Image
 from sklearn.decomposition import PCA, KernelPCA, SparsePCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import shuffle
-
+from machine_learning_select_features import select_features
 import util
 from machine_learning_extract_features import (cal_img_features_all,
                                                extract_feature_marina,
@@ -29,7 +29,7 @@ read training data
 
 binary: True or False means binary classification or multiclassification
 
-feature_mode: can be None(use every pixels as features), "martin", "marina" or "sift_kmeans". 
+extract_feature: can be None(use every pixels as features), "martin", "marina" or "sift_kmeans". 
 the details of "martin", "marina" and "sift_kmeans" feature extraction methodes are in the files machine_learning_extract_features.py
 
 mask_mode: True or False. this means whether to use the masks or not
@@ -39,7 +39,7 @@ sift_orb: "sift" or "orb" for the method sift_kmeans
 
 num_clusters: used only for the method sift_kmeans
 """
-def read_train_data(img_size = 256, label_name = "ABNORMAL", feature_mode = None, mask_mode = True, sift_orb = "sift", num_clusters = 60) :
+def read_train_data(img_size = 256, label_name = "ABNORMAL", extract_feature = None, mask_mode = True, sift_orb = "sift", num_clusters = 60) :
     print("read training data")
     imgs = []
     gts = []
@@ -51,7 +51,8 @@ def read_train_data(img_size = 256, label_name = "ABNORMAL", feature_mode = None
 
         img_path = train_data_dir + str(img_name) + '.bmp'
         img = cv2.imread(img_path)
-        if feature_mode != "sift_kmeans":
+
+        if extract_feature != "sift_kmeans":
             img = cv2.resize(img, (img_size, img_size))
 
         if mask_mode == True:
@@ -60,12 +61,13 @@ def read_train_data(img_size = 256, label_name = "ABNORMAL", feature_mode = None
         
             img_seg1 = cv2.imread(seg1_path)
             img_seg2 = cv2.imread(seg2_path)
-            if feature_mode != "sift_kmeans":
+
+            if extract_feature != "sift_kmeans":
                 img_seg1 = cv2.resize(img_seg1, (img_size, img_size))
                 img_seg2 = cv2.resize(img_seg2, (img_size, img_size))
         
         # First mode: use every pixels as features
-        if feature_mode == None:
+        if extract_feature == None:
             # if we use masks, we focus on the cell
             if mask_mode == True:
                 img = img * ((img_seg1 > 0) + (img_seg2 > 0))
@@ -73,19 +75,19 @@ def read_train_data(img_size = 256, label_name = "ABNORMAL", feature_mode = None
             imgs.append(img.reshape(-1))
 
         # Second mode: use martin method to extract features
-        elif feature_mode == "martin":
+        elif extract_feature == "martin":
             feature = extract_feature_matin(img, img_seg1, img_seg2)
             imgs.append(feature)
 
         # Third mode: use marina method to extract features
-        elif feature_mode == "marina":
+        elif extract_feature == "marina":
             feature1 = extract_feature_marina(img, img_seg1)
             feature2 = extract_feature_marina(img, img_seg2)
             feature = np.hstack((feature1, feature2))
             imgs.append(feature)
 
         # Forth mode: use sift_kmeans to extract features
-        elif feature_mode == "sift_kmeans":
+        elif extract_feature == "sift_kmeans":
             img = sharpening(img)
             img = augment_contrast(img)
             # if we use masks, we focus on the cell
@@ -95,12 +97,12 @@ def read_train_data(img_size = 256, label_name = "ABNORMAL", feature_mode = None
             imgs.append(img)
         
         # fifth mode: use dong method to extract features
-        elif feature_mode == "dong":
+        elif extract_feature == "dong":
             feature = extract_feature_dong(img, img_seg1, img_seg2)
             imgs.append(feature)
 
         # sixth mode: combine martin, marina and dong method to extract features
-        elif feature_mode == "martin_marina_dong":
+        elif extract_feature == "martin_marina_dong":
             feature1 = extract_feature_matin(img, img_seg1, img_seg2)
             feature2 = extract_feature_marina(img, img_seg1)
             feature3 = extract_feature_marina(img, img_seg2)
@@ -114,10 +116,9 @@ def read_train_data(img_size = 256, label_name = "ABNORMAL", feature_mode = None
 
     # Forth mode: use sift_kmeans to extract features
     code_book = None
-    if feature_mode == "sift_kmeans":
+    if extract_feature == "sift_kmeans":
         imgs, code_book = extract_feature_sift_kmeans(imgs, sift_orb, num_clusters)
-    elif feature_mode == "martin_marina_dong":
-        img = np.unique(img, axis=1)
+    
     print("training data shape: " + str(imgs.shape))
     return imgs, gts, code_book     
 
@@ -127,7 +128,7 @@ def read_train_data(img_size = 256, label_name = "ABNORMAL", feature_mode = None
 """
 read test data
 
-feature_mode: can be None(use every pixels as features), "martin", "marina" or "sift_kmeans". 
+extract_feature: can be None(use every pixels as features), "martin", "marina" or "sift_kmeans". 
 the details of "martin", "marina" and "sift_kmeans" feature extraction methodes are in the files machine_learning_extract_features.py
 
 mask_mode: True or False. this means whether to use the masks or not
@@ -137,7 +138,7 @@ code_book: used only for the method sift_kmeans to extract features
 
 sift_orb: "sift" or "orb" for the method sift_kmeans
 """
-def read_test_data(img_size = 256, feature_mode = None, mask_mode = True, code_book = None, sift_orb = "sift") :
+def read_test_data(img_size = 256, extract_feature = None, mask_mode = True, code_book = None, sift_orb = "sift") :
     print("\nread test data")
     imgs = []
 
@@ -152,20 +153,23 @@ def read_test_data(img_size = 256, feature_mode = None, mask_mode = True, code_b
             imgs_path.append(img_path)
             
             img = cv2.imread(img_path)
-            if feature_mode != "sift_kmeans":
+
+            if extract_feature != "sift_kmeans":
                 img = cv2.resize(img, (img_size, img_size))
+
             if mask_mode == True:
                 seg1_path = test_data_dir + name + '_segCyt.bmp'
                 seg2_path = test_data_dir + name + '_segNuc.bmp'
             
                 img_seg1 = cv2.imread(seg1_path)
                 img_seg2 = cv2.imread(seg2_path)
-                if feature_mode != "sift_kmeans":
+
+                if extract_feature != "sift_kmeans":
                     img_seg1 = cv2.resize(img_seg1, (img_size, img_size))
                     img_seg2 = cv2.resize(img_seg2, (img_size, img_size))
             
             # First mode: use every pixels as features
-            if feature_mode == None:
+            if extract_feature == None:
                 
                 # if we use masks, we focus on the cell
                 if mask_mode == True:
@@ -174,19 +178,19 @@ def read_test_data(img_size = 256, feature_mode = None, mask_mode = True, code_b
                 imgs.append(img.reshape(-1))
 
             # Second mode: use martin method to extract features
-            elif feature_mode == "martin":
+            elif extract_feature == "martin":
                 feature = extract_feature_matin(img, img_seg1, img_seg2)
                 imgs.append(feature)
 
             # Third mode: use marina method to extract features
-            elif feature_mode == "marina":
+            elif extract_feature == "marina":
                 feature1 = extract_feature_marina(img, img_seg1)
                 feature2 = extract_feature_marina(img, img_seg2)
                 feature = np.hstack((feature1, feature2))
                 imgs.append(feature)
 
             # Forth mode: use sift_kmeans to extract features
-            elif feature_mode == "sift_kmeans":
+            elif extract_feature == "sift_kmeans":
                 img = sharpening(img)
                 img = augment_contrast(img)
                 # if we use masks, we focus on the cell
@@ -196,12 +200,12 @@ def read_test_data(img_size = 256, feature_mode = None, mask_mode = True, code_b
                 imgs.append(img)
             
             # fifth mode: use dong method to extract features
-            elif feature_mode == "dong":
+            elif extract_feature == "dong":
                 feature = extract_feature_dong(img, img_seg1, img_seg2)
                 imgs.append(feature)
 
             # sixth mode: combine martin, marina and dong method to extract features
-            elif feature_mode == "martin_marina_dong":
+            elif extract_feature == "martin_marina_dong":
                 feature1 = extract_feature_matin(img, img_seg1, img_seg2)
                 feature2 = extract_feature_marina(img, img_seg1)
                 feature3 = extract_feature_marina(img, img_seg2)
@@ -212,7 +216,7 @@ def read_test_data(img_size = 256, feature_mode = None, mask_mode = True, code_b
     imgs = np.array(imgs)
 
     # Forth mode: use sift_kmeans to extract features
-    if feature_mode == "sift_kmeans":
+    if extract_feature == "sift_kmeans":
         imgs = cal_img_features_all(imgs, code_book, sift_orb)
 
     print("test data shape: " + str(imgs.shape))
@@ -222,8 +226,8 @@ def read_test_data(img_size = 256, feature_mode = None, mask_mode = True, code_b
 
 
 # pre-processing
-# pca_mode can be {None, "pca", "kpca", "spca"}
-def pre_process(X_train, X_test, y_train, pca_mode = None, pca_component = 500) :
+# select_feature can be {None, "pca", "kpca", "spca", "select_best", "RF", "ExtraTrees", "shap", "RFECV", "SFS", "permutation"}
+def pre_process(X_train, X_test, y_train, select_feature = None, n_component = 20) :
     print("\npre processing")
 
     print("scaling and shuffling")
@@ -238,29 +242,7 @@ def pre_process(X_train, X_test, y_train, pca_mode = None, pca_component = 500) 
     X_train = X_train[indices, :]
     y_train = y_train[indices, :]
 
-    # PCA
-    if pca_mode is not None:
-        print("pca mode is: " + pca_mode)
-    if pca_mode == "pca":
-        pca = PCA(n_components=pca_component,svd_solver='randomized', whiten=True)
-        pca.fit(X_train)
-
-        X_train = pca.transform(X_train)
-        X_test = pca.transform(X_test)
-    # Kernel Pca
-    elif pca_mode == "kpca":
-        kpca = KernelPCA(n_components=pca_component, kernel='rbf', gamma=2, n_jobs=8)
-        kpca.fit(X_train)
-
-        X_train = kpca.transform(X_train)
-        X_test = kpca.transform(X_test)
-    # Sparse Pca
-    elif pca_mode == "spca":
-        spca = SparsePCA(n_components=pca_component, n_jobs=8)
-        spca.fit(X_train)
-
-        X_train = spca.transform(X_train)
-        X_test = spca.transform(X_test)
+    X_train, X_test = select_features(X_train, X_test, y_train, select_feature = select_feature, n_component = n_component)
 
     print("After pre processing, training data shape: " + str(X_train.shape))
     print("After pre processing, test data shape: " + str(X_test.shape))
