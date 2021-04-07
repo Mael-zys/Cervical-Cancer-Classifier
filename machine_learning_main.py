@@ -14,7 +14,8 @@ from machine_learning_classifier import (KNN_train_prediction,
                                          logistic_train_prediction,
                                          PSO_SVM_train_prediction,
                                          XGBoost_train_prediction,
-                                         MLP_train_prediction)
+                                         MLP_train_prediction,
+                                         AutoML_train_prediction)
 # functions to read data and pre process
 from machine_learning_dataloader import (pre_process, read_test_data,
                                          read_train_data, write_data)
@@ -46,9 +47,12 @@ def main(args):
     elif args.classifier == "MLP":
         classifiers = [MLP_train_prediction]
         classifier_names = [args.classifier]
+    elif args.classifier == "AutoML":
+        classifiers = [AutoML_train_prediction]
+        classifier_names = [args.classifier]
     else:
         classifiers = [KNN_train_prediction, SVM_train_prediction, bagging_train_prediction, logistic_train_prediction, RF_train_prediction, PSO_SVM_train_prediction, XGBoost_train_prediction, MLP_train_prediction]
-        classifier_names = ["KNN", "SVM", "Bagging", "Logistic", "RF", "PSO_SVM", "XGBoost", "MLP"]
+        classifier_names = ["KNN", "SVM", "Bagging", "Logistic", "RF", "PSO_SVM", "XGBoost", "MLP", "AutoML"]
 
 
     if args.binary == True:
@@ -93,7 +97,7 @@ if __name__ == '__main__':
 
     # choose a classifier
     parser.add_argument('--classifier', nargs='?', type=str, default=None, 
-                        help='Choose classifier between [None, "SVM", "RF", "Bagging", "Logistic", "KNN", "PSO_SVM", "XGBoost", "MLP"]. None means run all classifiers. type=str, default=None')
+                        help='Choose classifier between [None, "SVM", "RF", "Bagging", "Logistic", "KNN", "PSO_SVM", "XGBoost", "MLP", "AutoML"]. None means run all classifiers. type=str, default=None')
     
     # hyper parameter for reading data, extract features and select features
     parser.add_argument('--img_size', nargs='?', type=int, default=256, 

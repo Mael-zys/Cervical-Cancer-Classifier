@@ -1,0 +1,131 @@
+read training data
+training data shape: (2921, 52)
+
+read test data
+test data shape: (1252, 52)
+
+pre processing
+scaling and shuffling
+After pre processing, training data shape: (2921, 52)
+After pre processing, test data shape: (1252, 52)
+
+AutoML estimator
+AutoML directory: AutoML_2
+The task is binary_classification with evaluation metric logloss
+AutoML will use algorithms: ['Decision Tree', 'Random Forest', 'Extra Trees', 'LightGBM', 'Xgboost', 'CatBoost', 'Neural Network', 'Nearest Neighbors']
+AutoML will stack models
+AutoML will ensemble availabe models
+AutoML steps: ['adjust_validation', 'simple_algorithms', 'default_algorithms', 'not_so_random', 'golden_features', 'kmeans_features', 'insert_random_feature', 'features_selection', 'hill_climbing_1', 'hill_climbing_2', 'boost_on_errors', 'ensemble', 'stack', 'ensemble_stacked']
+* Step adjust_validation will try to check up to 1 model
+1_DecisionTree logloss 0.328756 trained in 0.58 seconds
+Adjust validation. Remove: AutoML_2/1_DecisionTree
+Validation strategy: 10-fold CV Shuffle,Stratify
+* Step simple_algorithms will try to check up to 3 models
+1_DecisionTree logloss 0.316243 trained in 1.7 seconds
+2_DecisionTree logloss 0.291771 trained in 2.0 seconds
+3_DecisionTree logloss 0.290439 trained in 1.86 seconds
+* Step default_algorithms will try to check up to 7 models
+4_Default_LightGBM logloss 0.11315 trained in 6.35 seconds
+5_Default_Xgboost logloss 0.103388 trained in 6.05 seconds
+6_Default_CatBoost logloss 0.098794 trained in 12.13 seconds
+7_Default_NeuralNetwork logloss 0.163189 trained in 4.95 seconds
+8_Default_RandomForest logloss 0.212505 trained in 17.43 seconds
+9_Default_ExtraTrees logloss 0.253341 trained in 14.95 seconds
+10_Default_NearestNeighbors logloss 0.342874 trained in 4.84 seconds
+* Step not_so_random will try to check up to 61 models
+20_LightGBM logloss 0.100663 trained in 3.61 seconds
+11_Xgboost logloss 0.104206 trained in 7.73 seconds
+29_CatBoost logloss 0.097881 trained in 28.3 seconds
+38_RandomForest logloss 0.206907 trained in 15.41 seconds
+47_ExtraTrees logloss 0.285486 trained in 12.72 seconds
+56_NeuralNetwork logloss 0.167001 trained in 5.03 seconds
+65_NearestNeighbors logloss 0.279641 trained in 3.91 seconds
+21_LightGBM logloss 0.111742 trained in 4.12 seconds
+12_Xgboost logloss 0.109077 trained in 6.09 seconds
+30_CatBoost logloss 0.098776 trained in 21.14 seconds
+39_RandomForest logloss 0.163037 trained in 14.32 seconds
+48_ExtraTrees logloss 0.174126 trained in 14.63 seconds
+57_NeuralNetwork logloss 0.134786 trained in 5.13 seconds
+66_NearestNeighbors logloss 0.276992 trained in 4.46 seconds
+22_LightGBM logloss 0.104607 trained in 4.86 seconds
+13_Xgboost logloss 0.126051 trained in 5.79 seconds
+31_CatBoost logloss 0.097776 trained in 15.28 seconds
+40_RandomForest logloss 0.242012 trained in 14.49 seconds
+49_ExtraTrees logloss 0.315373 trained in 11.46 seconds
+58_NeuralNetwork logloss 0.169509 trained in 5.54 seconds
+67_NearestNeighbors logloss 0.276992 trained in 4.75 seconds
+23_LightGBM logloss 0.148822 trained in 4.56 seconds
+14_Xgboost logloss 0.149818 trained in 54.07 seconds
+32_CatBoost logloss 0.099659 trained in 16.51 seconds
+41_RandomForest logloss 0.164926 trained in 18.21 seconds
+50_ExtraTrees logloss 0.203434 trained in 11.2 seconds
+59_NeuralNetwork logloss 0.155875 trained in 5.19 seconds
+68_NearestNeighbors logloss 0.279641 trained in 4.76 seconds
+24_LightGBM logloss 0.106397 trained in 3.92 seconds
+15_Xgboost logloss 0.157484 trained in 5.37 seconds
+33_CatBoost logloss 0.100423 trained in 8.64 seconds
+42_RandomForest logloss 0.241132 trained in 13.58 seconds
+51_ExtraTrees logloss 0.334355 trained in 20.71 seconds
+60_NeuralNetwork logloss 0.139825 trained in 5.21 seconds
+69_NearestNeighbors logloss 0.466737 trained in 4.53 seconds
+25_LightGBM logloss 0.105651 trained in 8.91 seconds
+16_Xgboost logloss 0.132954 trained in 4.76 seconds
+34_CatBoost logloss 0.106016 trained in 7.57 seconds
+43_RandomForest logloss 0.174146 trained in 18.18 seconds
+52_ExtraTrees logloss 0.169887 trained in 11.72 seconds
+61_NeuralNetwork logloss 0.144585 trained in 5.37 seconds
+70_NearestNeighbors logloss 0.279641 trained in 4.89 seconds
+26_LightGBM logloss 0.10362 trained in 6.45 seconds
+17_Xgboost logloss 0.108577 trained in 4.99 seconds
+35_CatBoost logloss 0.097402 trained in 55.4 seconds
+44_RandomForest logloss 0.192564 trained in 18.34 seconds
+53_ExtraTrees logloss 0.215875 trained in 17.9 seconds
+62_NeuralNetwork logloss 0.149269 trained in 3.94 seconds
+71_NearestNeighbors logloss 0.464261 trained in 4.95 seconds
+27_LightGBM logloss 0.106259 trained in 7.04 seconds
+18_Xgboost logloss 0.104826 trained in 6.04 seconds
+36_CatBoost logloss 0.103451 trained in 12.65 seconds
+45_RandomForest logloss 0.20993 trained in 16.83 seconds
+54_ExtraTrees logloss 0.27202 trained in 13.48 seconds
+63_NeuralNetwork logloss 0.168435 trained in 5.58 seconds
+28_LightGBM logloss 0.100821 trained in 4.39 seconds
+19_Xgboost logloss 0.102299 trained in 8.21 seconds
+37_CatBoost logloss 0.096238 trained in 30.91 seconds
+46_RandomForest logloss 0.189248 trained in 14.44 seconds
+55_ExtraTrees logloss 0.23495 trained in 10.79 seconds
+64_NeuralNetwork logloss 0.16388 trained in 3.77 seconds
+* Step golden_features will try to check up to 3 models
+Add Golden Feature: feature_1_diff_feature_50
+Add Golden Feature: feature_1_diff_feature_45
+Add Golden Feature: feature_27_diff_feature_46
+Add Golden Feature: feature_33_diff_feature_50
+Add Golden Feature: feature_33_diff_feature_47
+Add Golden Feature: feature_7_diff_feature_50
+Add Golden Feature: feature_27_diff_feature_45
+Add Golden Feature: feature_1_diff_feature_2
+Add Golden Feature: feature_1_diff_feature_47
+Add Golden Feature: feature_7_diff_feature_45
+Created 10 Golden Features in 1.76 seconds.
+37_CatBoost_GoldenFeatures logloss 0.09646 trained in 35.83 seconds
+35_CatBoost_GoldenFeatures logloss 0.097366 trained in 56.16 seconds
+31_CatBoost_GoldenFeatures logloss 0.099143 trained in 15.09 seconds
+* Step kmeans_features will try to check up to 3 models
+Created 28 KMeans Features in 0.18 seconds.
+Created 28 KMeans Features in 0.14 seconds.
+Created 28 KMeans Features in 0.22 seconds.
+Created 28 KMeans Features in 0.25 seconds.
+Created 28 KMeans Features in 0.24 seconds.
+Created 28 KMeans Features in 0.19 seconds.
+Created 28 KMeans Features in 0.13 seconds.
+Created 28 KMeans Features in 0.16 seconds.
+Created 28 KMeans Features in 0.19 seconds.
+Created 28 KMeans Features in 0.18 seconds.
+37_CatBoost_KMeansFeatures logloss 0.101233 trained in 39.97 seconds
+Created 28 KMeans Features in 0.18 seconds.
+Created 28 KMeans Features in 0.13 seconds.
+Created 28 KMeans Features in 0.17 seconds.
+Created 28 KMeans Features in 0.22 seconds.
+Created 28 KMeans Features in 0.25 seconds.
+Created 28 KMeans Features in 0.16 seconds.
+Created 28 KMeans Features in 0.09 seconds.
+Created 28 KMeans Features in 0.14 seconds.

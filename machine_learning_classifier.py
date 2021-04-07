@@ -20,7 +20,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils import shuffle
-
+from supervised.automl import AutoML
 random.seed(0)
 
 def SVM_train_prediction(X_train, X_test, y_train, binary = True, cv_mode = "Grid") :
@@ -191,7 +191,7 @@ def XGBoost_train_prediction(X_train, X_test, y_train, binary = True, cv_mode = 
         scoring = "f1_macro"
 
     # XGB
-    XGB = XGBClassifier()
+    XGB = XGBClassifier(nthread = 8)
     p_grid_xgb = dict(
         max_depth = [4, 5, 6, 7],
         learning_rate = np.linspace(0.03, 0.3, 10),
@@ -210,6 +210,7 @@ def XGBoost_train_prediction(X_train, X_test, y_train, binary = True, cv_mode = 
     y_pre = grid_xgb.predict(X_test)
     return y_pre
 
+# MLP
 def MLP_train_prediction(X_train, X_test, y_train, binary = True, cv_mode = "Grid") :
     print("\nMLP estimator")
     
@@ -224,10 +225,10 @@ def MLP_train_prediction(X_train, X_test, y_train, binary = True, cv_mode = "Gri
        hidden_layer_sizes=(100, 100), 
        learning_rate_init=0.001, max_iter=1000, momentum=0.9,
        nesterovs_momentum=True, power_t=0.5, random_state=1, shuffle=True,
-       tol=0.0001, validation_fraction=0.1, verbose=False,
+       tol=0.0001, validation_fraction=0.1,
        warm_start=False, verbose=10)
 
-    p_grid_mlp = {'solver':['adam', 'sgd'], 'learning_rate' = ['adaptive', 'constant']}
+    p_grid_mlp = {'solver':['adam', 'sgd'], 'learning_rate' : ['adaptive', 'constant']}
 
     if cv_mode == "Grid":
         grid_mlp = GridSearchCV(estimator=MLP, param_grid=p_grid_mlp, scoring=scoring, cv=5, n_jobs = 8)
@@ -239,4 +240,15 @@ def MLP_train_prediction(X_train, X_test, y_train, binary = True, cv_mode = "Gri
     print("Best Validation Score: {}".format(grid_mlp.best_score_))
     print("Best params: {}".format(grid_mlp.best_params_))
     y_pre = grid_mlp.predict(X_test)
+    return y_pre
+
+# AutoML
+def AutoML_train_prediction(X_train, X_test, y_train, binary=True, cv_mode = "Grid") :
+    print("\nAutoML estimator")
+
+    automl = AutoML(mode="Compete")
+    automl.fit(X_train, y_train.ravel())
+
+    y_pre = automl.predict(X_test)
+
     return y_pre
