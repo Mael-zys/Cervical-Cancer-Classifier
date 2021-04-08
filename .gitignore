@@ -4,4 +4,6 @@
 *.png
 *.csv
 *.zip
+*.log
+*.out
 AutoML*/*

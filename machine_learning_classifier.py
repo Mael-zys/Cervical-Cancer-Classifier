@@ -243,6 +243,7 @@ def MLP_train_prediction(X_train, X_test, y_train, binary = True, cv_mode = "Gri
     return y_pre
 
 # AutoML
+# https://github.com/mljar/mljar-supervised
 def AutoML_train_prediction(X_train, X_test, y_train, binary=True, cv_mode = "Grid") :
     print("\nAutoML estimator")
 
